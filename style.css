@@ -1,20 +1,25 @@
 :root{
-  --sobre-1:#7c8a6b;
-  --sobre-2:#5f6e50;
-  --solapa:#8f9c7d;
-  --oro:#cfa85a;
-  --oro-claro:#e8cd8e;
-  --bg:#fdf6f2;
+  --sobre-1:#3f6b4a;
+  --sobre-2:#2c4a34;
+  --solapa:#4f7d5a;
+  --oro:#c9a227;
+  --oro-claro:#e6c860;
+  --bg:#e2ede0;
   --card:#ffffff;
-  --ink:#5a4340;
-  --ink-soft:#8a6f6a;
-  --accent:#c98a92;
-  --accent-2:#d9b6a3;
-  --line:#e8d3ca;
+  --ink:#1a2b3c;
+  --ink-soft:#5b7065;
+  --accent:#1f3a5f;
+  --accent-2:#3f6b4a;
+  --line:#d8e3d4;
+  --rojo:#a23b3b;
 }
 
 *{ box-sizing:border-box; }
-html, body{ margin:0; height:100%; }
+html, body{
+  margin:0;
+  height:100%;
+  overflow-x:hidden;
+}
 body{
   background:var(--bg);
   color:var(--ink);
@@ -251,8 +256,8 @@ body.bloqueado{ overflow:hidden; height:100%; }
   margin:24px -32px 0;
   padding:38px 24px;
   text-align:center;
-  background:linear-gradient(135deg, var(--accent), var(--accent-2));
-  color:#fff8f5;
+  background:linear-gradient(135deg, #fdfdfd, #f7e5e1);
+  color:var(--ink);
 }
 .acompanos-eyebrow{
   margin:0;
@@ -282,7 +287,7 @@ body.bloqueado{ overflow:hidden; height:100%; }
   border-radius:16px;
   padding:22px 18px 20px;
   text-align:center;
-  box-shadow:0 10px 24px rgba(90,67,64,.12);
+  box-shadow:0 12px 28px rgba(26,43,60,.18);
 }
 .countdown-label{
   letter-spacing:2px;
@@ -408,6 +413,7 @@ body.bloqueado{ overflow:hidden; height:100%; }
 }
 
 .collage{
+  position:relative;
   display:grid;
   grid-template-columns:2fr 1fr;
   grid-auto-rows:auto;
@@ -448,10 +454,10 @@ body.bloqueado{ overflow:hidden; height:100%; }
   margin:26px 0 0;
   padding:34px 24px;
   text-align:center;
-  background:var(--bg);
+  background:linear-gradient(135deg, #fdfdfd, #f7e5e1);
   border:1px solid var(--line);
   border-radius:16px;
-  box-shadow:0 8px 20px rgba(90,67,64,.10);
+  box-shadow:0 12px 28px rgba(26,43,60,.18);
   color:var(--ink);
 }
 .ceremonia-icono{
@@ -579,7 +585,7 @@ body.bloqueado{ overflow:hidden; height:100%; }
   background:var(--card);
   border:1px solid var(--line);
   border-radius:16px;
-  box-shadow:0 8px 20px rgba(90,67,64,.10);
+  box-shadow:0 12px 28px rgba(26,43,60,.18);
   padding:28px 22px;
   text-align:center;
   margin:26px 0;
@@ -623,7 +629,7 @@ body.bloqueado{ overflow:hidden; height:100%; }
   margin:0 auto 18px;
   border-radius:24px;
   overflow:hidden;
-  box-shadow:0 8px 20px rgba(90,67,64,.15);
+  box-shadow:0 12px 28px rgba(26,43,60,.22);
   background:var(--card);
 }
 .foto-cuadrada img{ width:100%; height:100%; object-fit:cover; display:block; }
@@ -687,14 +693,14 @@ body.bloqueado{ overflow:hidden; height:100%; }
   width:110px;
   height:110px;
   border-radius:50%;
-  border:2px solid var(--accent);
+  border:2px solid var(--rojo);
   margin:0 auto;
   display:flex;
   align-items:center;
   justify-content:center;
   font-family:'Alex Brush', 'Dancing Script', cursive;
   font-size:40px;
-  color:var(--accent);
+  color:var(--rojo);
 }
 .monograma-circulo .amp{
   font-size:20px;
@@ -737,6 +743,15 @@ h2{
   margin:0 0 14px;
   letter-spacing:1px;
 }
+
+.flor-decor{
+  position:absolute;
+  pointer-events:none;
+  user-select:none;
+  mix-blend-mode:multiply;
+  filter:drop-shadow(0 10px 16px rgba(26,43,60,.28));
+  z-index:3;
+}
 .lugar{ background:var(--bg); border:1px solid var(--line); border-radius:12px; padding:16px 18px; margin-bottom:14px; }
 .lugar-tag{ font-size:12px; letter-spacing:2px; text-transform:uppercase; color:var(--accent); margin-bottom:4px; }
 .lugar .placeholder{ display:block; margin-top:4px; width:fit-content; }
@@ -747,3 +762,61 @@ ul.itinerario li .hora{ color:var(--accent); min-width:70px; font-weight:600; }
 .rsvp-box{ text-align:center; background:var(--bg); border:1px solid var(--line); border-radius:12px; padding:22px; }
 .rsvp-box p{ margin:6px 0; color:var(--ink-soft); }
 footer{ margin-top:30px; font-size:14px; color:var(--ink-soft); font-style:italic; text-align:center; }
+
+.acompanos-section{ position:relative; overflow:visible; }
+.flor1{ top:-54px; right:-24px; width:170px; transform:rotate(250deg); }
+.flor4{ top:-50px; left:-30px; width:110px; transform:rotate(-8deg); }
+
+.titulo-padrinos{ position:relative; }
+.flor2{ top:-30px; left:-8px; width:90px; transform:rotate(-5deg); }
+
+.monograma{ position:relative; }
+.flor3{
+  top:-38px; left:50%;
+  transform:translateX(-50%);
+  width:220px;
+  z-index:1;
+}
+.monograma-circulo{ position:relative; z-index:2; }
+
+.transicion-clara{ position:relative; overflow:visible; }
+.flor6{ top:10px; left:8px; width:100px; transform:rotate(-6deg); }
+
+.card-rsvp{ position:relative; }
+.flor5{ top:-18px; right:-14px; width:100px; transform:rotate(10deg); }
+
+.invite{
+  position:relative;
+}
+
+.flor7{
+  position:absolute;
+  width:150px;
+  z-index:2;
+  pointer-events:none;
+  user-select:none;
+  mix-blend-mode:multiply;
+  opacity:0.2;
+}
+
+.flor7-a{ top:60px;   left:-24px;  transform:rotate(-10deg); }
+.flor7-b{ top:1020px;  right:-54px; transform:scaleX(-1) rotate(-8deg); }
+.flor7-c{ top:1450px; left:-24px;  transform:rotate(12deg); }
+.flor7-d{ top:2500px; right:-24px; transform:scaleX(-1) rotate(6deg); }
+.flor7-f{ top:3550px;  right:-24px; transform:scaleX(-1) rotate(deg); }
+.flor7-g{ top:3980px; left:-24px;  transform:rotate(12deg); }
+.flor7-h{ top:4630px; right:-24px; transform:scaleX(-1) rotate(6deg); }
+
+.flor10{
+  position:absolute;
+  top:-90px;
+  left: -100px;
+  width:190px;
+  z-index:5;
+  pointer-events:none;
+  user-select:none;
+  mix-blend-mode:multiply;
+  opacity:0.9;
+  filter:drop-shadow(0 10px 16px rgba(26,43,60,.25));
+  transform:rotate(8deg);
+}
