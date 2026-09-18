@@ -215,7 +215,7 @@ body.bloqueado{ overflow:hidden; height:100%; }
   position:absolute;
   inset:0;
   background:linear-gradient(180deg,
-    rgba(0, 0, 0, 0.664) 0%,
+    rgba(0, 0, 0, 0.795) 0%,
     rgba(0,0,0,.25) 30%,
     rgba(0,0,0,0) 60%
   );
