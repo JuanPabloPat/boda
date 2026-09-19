@@ -14,6 +14,133 @@
   --rojo:#a23b3b;
 }
 
+
+:root{
+  --rv-ease:cubic-bezier(.16,1,.3,1);   /* arranca rápido y se asienta suave */
+  --rv-dur:.65s;                          /* velocidad base (más bajo = más rápido) */
+}
+
+/* Estado inicial: oculto hasta que aparece en pantalla.
+   Solo se aplica si el JS marcó el elemento con .rv */
+.rv:not(.rv-in){ opacity:0; }
+
+.rv-in{
+  animation-duration:var(--rv-dur);
+  animation-timing-function:var(--rv-ease);
+  animation-delay:var(--d,0s);
+  animation-fill-mode:backwards;
+}
+
+/* ---------- Aparecer subiendo un poco ---------- */
+.rv-in.rv-up{ animation-name:rvUp; }
+@keyframes rvUp{ from{ opacity:0; translate:0 22px; } }
+
+/* ---------- Solo fade ---------- */
+.rv-in.rv-fade{ animation-name:rvFade; }
+@keyframes rvFade{ from{ opacity:0; } }
+
+/* ---------- Tarjetas: suben y crecen apenas ---------- */
+.rv-in.rv-zoom{ animation-name:rvZoom; animation-duration:.8s; }
+@keyframes rvZoom{ from{ opacity:0; scale:.95; translate:0 18px; } }
+
+/* ---------- Iconos y detalles pequeños: "pop" suave ---------- */
+.rv-in.rv-pop{
+  animation-name:rvPop;
+  animation-duration:.55s;
+  animation-timing-function:cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes rvPop{ from{ opacity:0; scale:.6; } }
+
+/* ---------- Entrar desde un lado (itinerario) ---------- */
+.rv-in.rv-izq{ animation-name:rvIzq; }
+.rv-in.rv-der{ animation-name:rvDer; }
+@keyframes rvIzq{ from{ opacity:0; translate:-28px 0; } }
+@keyframes rvDer{ from{ opacity:0; translate:28px 0; } }
+
+/* ---------- Flores: aparecen girando y creciendo un poco ---------- */
+.rv-in.rv-flor{ animation-name:rvFlor; animation-duration:1s; }
+@keyframes rvFlor{ from{ opacity:0; scale:.82; rotate:-10deg; } }
+
+/* ---------- Icono del itinerario (mantiene su centrado) ---------- */
+.rv-in.rv-icono{
+  animation-name:rvIcono;
+  animation-duration:.6s;
+  animation-timing-function:cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes rvIcono{
+  from{ opacity:0; transform:translate(-50%,-50%) scale(.5); }
+}
+
+/* ---------- Fotos: se "descubren" + la imagen se asienta ---------- */
+.rv-in.rv-foto{ animation-name:rvFoto; animation-duration:.95s; animation-timing-function:cubic-bezier(.65,0,.25,1); }
+@keyframes rvFoto{
+  from{ clip-path:inset(100% 0 0 0); }
+  to{   clip-path:inset(0 0 0 0); }
+}
+/* variantes para el collage: cada foto entra desde un lado distinto */
+.rv-in.rv-foto.rectangular{ animation-name:rvFotoIzq; }
+.rv-in.rv-foto.pequena{ animation-name:rvFotoArriba; }
+@keyframes rvFotoIzq{
+  from{ clip-path:inset(0 100% 0 0); }
+  to{   clip-path:inset(0 0 0 0); }
+}
+@keyframes rvFotoArriba{
+  from{ clip-path:inset(0 0 100% 0); }
+  to{   clip-path:inset(0 0 0 0); }
+}
+.rv-foto.rv-in img{
+  animation:rvAsentar 1.2s var(--rv-ease) var(--d,0s) backwards;
+}
+@keyframes rvAsentar{ from{ scale:1.18; } }
+
+/* marco dorado detrás de los arcos: aparece después de la foto */
+.arco-marco:has(> .arco.rv:not(.rv-in))::before{ opacity:0; }
+.arco-marco:has(> .arco.rv-in)::before{ animation:rvFade .8s ease .6s backwards; }
+.duo-item:nth-child(2) .arco-marco:has(> .arco.rv-in)::before{ animation-delay:.78s; }
+
+/* ---------- Foto principal: se asienta al abrir el sobre ---------- */
+#invitacion.visible .foto-header img{
+  animation:rvAsentar 1.8s var(--rv-ease) .2s backwards;
+}
+
+/* ---------- Divisores ❀: las líneas crecen desde el centro ---------- */
+.divisor.rv-div::before,
+.divisor.rv-div::after{
+  scale:0 1;
+  transition:scale .8s var(--rv-ease) .1s;
+}
+.divisor.rv-div::before{ transform-origin:right center; }
+.divisor.rv-div::after{ transform-origin:left center; }
+.divisor.rv-div span{
+  opacity:0;
+  scale:.4;
+  transition:opacity .5s ease, scale .6s cubic-bezier(.34,1.56,.64,1);
+}
+.divisor.rv-div.rv-in::before,
+.divisor.rv-div.rv-in::after{ scale:1 1; }
+.divisor.rv-div.rv-in span{ opacity:1; scale:1; }
+
+/* ---------- Línea vertical del itinerario: se dibuja hacia abajo ---------- */
+.itinerario-timeline.rv-linea::before{
+  scale:1 0;
+  transform-origin:top center;
+  transition:scale 1.1s cubic-bezier(.4,0,.2,1);
+}
+.itinerario-timeline.rv-linea.rv-in::before{ scale:1 1; }
+
+/* ---------- Mensaje de gracias del RSVP ---------- */
+.rsvp-gracias.visible{ animation:rvUp .7s var(--rv-ease); }
+
+/* ---------- Si la persona prefiere menos movimiento ---------- */
+@media (prefers-reduced-motion:reduce){
+  .rv:not(.rv-in){ opacity:1; }
+  .rv-in, .rv-in *{ animation:none !important; }
+  .divisor.rv-div::before, .divisor.rv-div::after,
+  .itinerario-timeline.rv-linea::before{ scale:1 1; transition:none; }
+  .divisor.rv-div span{ opacity:1; scale:1; transition:none; }
+  .arco-marco:has(> .arco.rv:not(.rv-in))::before{ opacity:.75; }
+}
+
 *{ box-sizing:border-box; }
 html, body{
   margin:0;
@@ -27,126 +154,465 @@ body{
 }
 body.bloqueado{ overflow:hidden; height:100%; }
 
+/* ==========================================================
+   SOBRE (portada)
+   1) En style.css BORRA todo lo que está entre  #cover{  y  #invitacion{
+      (incluye #cover, .sobre, .solapa, .nombres-sobre, .sello,
+      .texto-invitado, .tap-hint, @keyframes pulse y .musica-btn).
+   2) Pega esto en ese mismo lugar.
+   Para cambiar el tamaño del sobre: --w en .sobre
+   ========================================================== */
+
 #cover{
   position:fixed;
   inset:0;
   z-index:50;
-  perspective:1400px;
-  transition:transform .8s cubic-bezier(.6,0,.3,1), opacity .6s ease .15s;
+  transform-origin:50% 40%;
+  transition:transform .75s cubic-bezier(.5,0,.2,1), opacity .6s ease .12s;
 }
-#cover.abriendo{ transform:translateY(-8%); opacity:0; pointer-events:none; }
+/* salida: se acerca la cámara hacia la carta */
+#cover.saliendo{ transform:scale(1.4); opacity:0; pointer-events:none; }
 #cover.oculto{ display:none; }
 
+/* ---------- Escena / fondo ---------- */
 .sobre{
+    --w:min(94vw, 600px);                        /* antes: min(88vw, 470px, 64vh) */
+  --h:min(calc(var(--w) * 1.2), 58vh); 
+  --ease:cubic-bezier(.16,1,.3,1);
+  /* textura de papel (grano fino) */
+  --papel:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .36 0 0 0 0 .27 0 0 0 0 .14 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
+
   position:relative;
   width:100%;
   height:100%;
-  background:
-    radial-gradient(ellipse at 30% 20%, rgba(255,255,255,.25), rgba(255,255,255,0) 55%),
-    linear-gradient(155deg, #f1e8d3, #e2d3ac 55%, #d0bd8d 100%);
-  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
   overflow:hidden;
+  cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+  background:radial-gradient(ellipse at 50% 42%, #2c4f7a 0%, #1b3456 48%, #0f1e33 100%);
+  box-shadow:inset 0 0 150px rgba(0,0,0,.55);
+}
+/* luz dorada suave detrás del sobre + grano */
+.sobre::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(ellipse at 50% 48%, rgba(230,200,96,.16), transparent 55%),
+    var(--papel);
+  pointer-events:none;
+}
+/* marco dorado fino alrededor de la pantalla */
+.sobre::after{
+  content:"";
+  position:absolute;
+  inset:max(10px, 1.6vh);
+  border:1px solid rgba(230,200,96,.35);
+  pointer-events:none;
+  z-index:2;
 }
 
-.sobre svg.pliegues{
+@keyframes aparecer{ from{ opacity:0; translate:0 14px; } }
+
+/* ---------- Destellos dorados ---------- */
+.brillos{ position:absolute; inset:0; z-index:1; pointer-events:none; overflow:hidden; }
+.brillos i{
+  position:absolute;
+  left:var(--x);
+  bottom:-12px;
+  width:var(--s);
+  height:var(--s);
+  border-radius:50%;
+  background:radial-gradient(circle, #fff6cf, #e6c860 60%, transparent 72%);
+  box-shadow:0 0 8px 2px rgba(230,200,96,.55);
+  opacity:0;
+  animation:subirBrillo var(--t) linear var(--d) infinite;
+}
+@keyframes subirBrillo{
+  0%{   translate:0 0; opacity:0; }
+  12%{  opacity:1; }
+  80%{  opacity:.7; }
+  100%{ translate:var(--dx) -105vh; opacity:0; }
+}
+
+/* ---------- Texto superior ---------- */
+.nombres-sobre{
+  position:absolute;
+  top:clamp(26px, 8vh, 84px);
+  left:0; right:0;
+  z-index:3;
+  text-align:center;
+  pointer-events:none;
+  transition:opacity .35s ease;
+  animation:aparecer 1s var(--ease) .3s backwards;
+}
+.nombres-sobre span{
+  display:inline-block;
+  padding:0 .15em;
+  font-family:'Alex Brush','Dancing Script',cursive;
+  font-size:clamp(40px, 11vw, 66px);
+  line-height:1.15;
+  background:linear-gradient(180deg,#fbeab0 0%,#e6c860 55%,#b98f1d 100%);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  filter:drop-shadow(0 3px 8px rgba(0,0,0,.45));
+}
+
+/* ---------- Caja del sobre ---------- */
+.sobre-caja{
+  --s:calc(var(--w) * .27);          /* tamaño del sello */
+  position:relative;
+  z-index:4;
+  width:var(--w);
+  height:var(--h);
+  margin-top:calc(var(--h) * .2);
+  perspective:1100px;
+  animation:
+    entrada 1s var(--ease) .1s backwards,
+    flotar 6s ease-in-out 1.2s infinite;
+}
+@keyframes entrada{ from{ opacity:0; transform:translateY(40px) scale(.94); } }
+@keyframes flotar{ 0%,100%{ translate:0 0; } 50%{ translate:0 -5px; } }
+
+.sombra-suelo{
+  position:absolute;
+  left:4%; right:4%;
+  bottom:-5%;
+  height:12%;
+  border-radius:50%;
+  background:rgba(0,0,0,.6);
+  filter:blur(16px);
+  z-index:0;
+}
+
+/* interior del sobre: forro azul con puntitos dorados y profundidad */
+.cuerpo{
+  position:absolute;
+  inset:0;
+  z-index:1;
+  border-radius:3px;
+  background:
+    radial-gradient(circle, rgba(230,200,96,.22) 1.1px, transparent 1.6px) 0 0 / 14px 14px,
+    radial-gradient(ellipse at 50% 20%, #2f5382, #1a3050 75%);
+  box-shadow:
+    0 30px 55px -10px rgba(0,0,0,.6),
+    0 10px 20px rgba(0,0,0,.35),
+    inset 0 22px 34px rgba(0,0,0,.4);
+}
+
+/* ---------- Frente: bolsillo de 3 triángulos ---------- */
+.bolsillo{
+  position:absolute;
+  inset:0;
+  z-index:4;
+  pointer-events:none;
+  filter:drop-shadow(0 -2px 4px rgba(20,10,0,.35)) drop-shadow(0 2px 3px rgba(20,10,0,.25));
+}
+.bolsillo .p{ position:absolute; inset:0; }
+.p-izq{
+  clip-path:polygon(0 0, 50% 56%, 0 100%);
+  background:var(--papel), linear-gradient(100deg,#f5ecd6 0%,#e5d6b1 100%);
+}
+.p-der{
+  clip-path:polygon(100% 0, 50% 56%, 100% 100%);
+  background:var(--papel), linear-gradient(260deg,#f0e6cb 0%,#dfcfa8 100%);
+}
+.p-inf{
+  clip-path:polygon(0 100%, 50% 56%, 100% 100%);
+  background:var(--papel), linear-gradient(180deg,#f8f1e0 0%,#eadcbc 100%);
+}
+.pliegues{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  z-index:4;
+  pointer-events:none;
+}
+
+/* ---------- Solapa (2 caras) ---------- */
+.sombra-solapa{
+  position:absolute;
+  left:0; top:0;
+  width:100%;
+  height:56%;
+  z-index:5;
+  filter:blur(7px);
+  translate:0 9px;
+  pointer-events:none;
+}
+.sombra-solapa div{
+  width:100%;
+  height:100%;
+  background:rgba(50,32,12,.45);
+  clip-path:polygon(0 0, 100% 0, 50% 100%);
+}
+
+.solapa{
+  position:absolute;
+  left:0; top:0;
+  width:100%;
+  height:56%;
+  z-index:6;
+  transform-origin:50% 0;
+  transform-style:preserve-3d;
+}
+.solapa-cara{
+  position:absolute;
+  inset:0;
+  clip-path:polygon(0 0, 100% 0, 50% 100%);
+  backface-visibility:hidden;
+  -webkit-backface-visibility:hidden;
+}
+.solapa-cara.fuera{
+  background:var(--papel), linear-gradient(180deg,#f6eedb 0%,#e8dab6 100%);
+}
+.solapa-cara.dentro{
+  transform:rotateX(180deg);
+  background:
+    radial-gradient(circle, rgba(230,200,96,.22) 1.1px, transparent 1.6px) 0 0 / 14px 14px,
+    radial-gradient(ellipse at 50% 100%, #2d5083, #17294a);
+}
+.solapa-filete{
   position:absolute;
   inset:0;
   width:100%;
   height:100%;
 }
 
-.solapa{
+/* ---------- Carta ---------- */
+.ventana-carta{
   position:absolute;
-  top:0; left:0;
-  width:100%;
-  height:54%;
-  background:linear-gradient(155deg, #ede2c8, #d8c69b 60%, #c3ac7c 100%);
-  clip-path:polygon(0 0, 100% 0, 50% 100%);
-  transform-origin:top center;
-  transform-style:preserve-3d;
-  backface-visibility:hidden;
-  transition:transform .9s cubic-bezier(.6,0,.3,1);
-  box-shadow:0 3px 10px rgba(90,70,40,.15) inset;
+  z-index:3;
+  left:-10%;
+  right:-10%;
+  top:-130%;
+  bottom:0;
+  overflow:hidden;
+  pointer-events:none;
 }
-.sobre.abriendo .solapa{ transform:rotateX(180deg); }
-
-.nombres-sobre{
+.carta{
   position:absolute;
-  top:14%;
-  left:0; right:0;
-  z-index:4;
+  left:calc(var(--w) * .18);
+  top:calc(var(--h) * 1.64);
+  width:calc(var(--w) * .84);
+  height:calc(var(--h) * .9);
+  padding-top:calc(var(--h) * .07);
+  border-radius:3px;
   text-align:center;
-  font-family:'Alex Brush', 'Dancing Script', cursive;
-  color:#5c4425;
-  line-height:1.15;
-  transition:opacity .3s ease;
+  background:var(--papel), linear-gradient(180deg,#fffdf6,#f6efdc);
+  box-shadow:0 -6px 18px rgba(0,0,0,.28), 0 0 0 1px rgba(201,162,39,.25);
 }
-.sobre.abriendo .nombres-sobre{ opacity:0; }
-.nombres-sobre .linea1{ font-size:clamp(30px,8vw,52px); display:block; }
-.nombres-sobre .linea2{ font-size:clamp(26px,7vw,46px); display:block; margin-top:2px; margin-left:14%; }
-
-.sello{
+.carta::before,
+.carta::after{
+  content:"";
   position:absolute;
-  top:58%;
-  left:50%;
-  transform:translate(-50%,-50%);
-  z-index:5;
-  width:110px;
-  height:110px;
-  border-radius:50%;
-  background:radial-gradient(circle at 35% 28%, #8a6a3f, #5c4425 62%, #3c2c18 100%);
+  border:1px solid rgba(201,162,39,.55);
+  pointer-events:none;
+}
+.carta::before{ inset:calc(var(--w) * .03); }
+.carta::after{ inset:calc(var(--w) * .03 + 4px); border-color:rgba(201,162,39,.25); }
+
+.carta-rama{
+  display:block;
+  width:calc(var(--w) * .075);
+  margin:0 auto;
+}
+.carta-titulo{
+  margin-top:.15em;
+  font-family:'Alex Brush','Dancing Script',cursive;
+  font-size:calc(var(--w) * .11);
+  line-height:1.1;
+  color:var(--accent);
+}
+.carta-orn{
   display:flex;
   align-items:center;
   justify-content:center;
-  box-shadow:0 6px 16px rgba(0,0,0,.35), 0 0 0 4px rgba(92,68,37,.18);
-  transition:transform .5s ease, opacity .5s ease;
+  gap:10px;
+  margin-top:.35em;
+  color:#c9a227;
+  font-size:calc(var(--w) * .04);
 }
-.sello svg{ width:56px; height:56px; }
-.sobre.abriendo .sello{ transform:translate(-50%,-50%) scale(.5) rotate(20deg); opacity:0; }
+.carta-orn::before,
+.carta-orn::after{
+  content:"";
+  width:calc(var(--w) * .08);
+  height:1px;
+  background:#c9a227;
+  opacity:.7;
+}
 
+/* ---------- Sello de cera ---------- */
+.sello{
+  position:absolute;
+  z-index:7;
+  width:var(--s);
+  height:var(--s);
+  left:calc(50% - var(--s) / 2);
+  top:calc(56% - var(--s) / 2);
+  transition:scale .15s ease;
+  animation:estampar .8s cubic-bezier(.3,1.5,.5,1) .55s backwards;
+}
+.sello svg{
+  width:100%;
+  height:100%;
+  display:block;
+  overflow:visible;
+  filter:drop-shadow(0 5px 5px rgba(0,0,0,.4)) drop-shadow(0 14px 16px rgba(0,0,0,.35));
+}
+/* aro dorado que "late" invitando a tocar */
+.sello::before{
+  content:"";
+  position:absolute;
+  inset:8%;
+  border-radius:50%;
+  border:1.5px solid rgba(230,200,96,.75);
+  opacity:0;
+  animation:aro 2.6s ease-out 1.8s infinite;
+}
+/* onda que sale al abrir */
+.sello::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:50%;
+  border:2px solid #f6dc8a;
+  opacity:0;
+}
+.sobre:active .sello{ scale:.94; }
+
+@keyframes estampar{ from{ opacity:0; scale:1.6; } }
+@keyframes aro{
+  0%{   scale:.9; opacity:.8; }
+  100%{ scale:1.7; opacity:0; }
+}
+@keyframes romper{
+  0%{   scale:1;    rotate:0deg;  opacity:1; }
+  30%{  scale:1.14; rotate:-3deg; opacity:1; }
+  100%{ scale:.3;   rotate:22deg; opacity:0; }
+}
+@keyframes onda{
+  from{ scale:.8; opacity:.9; }
+  to{   scale:2.4; opacity:0; }
+}
+
+/* ---------- Nombre del invitado (impreso en el sobre) ---------- */
 .texto-invitado{
   position:absolute;
-  top:calc(60% + 78px);
+  z-index:5;
   left:0; right:0;
-  z-index:4;
+  bottom:calc(var(--h) * .075);
   text-align:center;
   color:#5c4425;
   transition:opacity .3s ease;
+  animation:aparecer 1s var(--ease) 1s backwards;
 }
-.sobre.abriendo .texto-invitado{ opacity:0; }
-.nombre-invitado{ font-size:19px; font-style:italic; margin-bottom:2px; }
-.num-invitados{ font-size:14px; letter-spacing:1px; opacity:.8; }
+.nombre-invitado{
+  font-size:clamp(17px, calc(var(--w) * .058), 26px);
+  font-style:italic;
+  font-weight:600;
+  margin-bottom:2px;
+}
+.num-invitados{
+  font-size:clamp(13px, calc(var(--w) * .038), 17px);
+  letter-spacing:1px;
+  opacity:.8;
+}
 
+/* ---------- Pista inferior ---------- */
 .tap-hint{
   position:absolute;
-  bottom:6%;
+  z-index:4;
+  bottom:max(28px, 5.5vh);
   left:0; right:0;
-  text-align:center;
-  font-size:13px;
-  letter-spacing:2px;
-  text-transform:uppercase;
-  color:#5c4425;
-  opacity:.65;
-  animation:pulse 1.8s ease-in-out infinite;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:14px;
+  font-family:'Cormorant Garamond', serif;
+  font-style:italic;
+  font-size:17px;
+  letter-spacing:.06em;
+  color:#e8cd8e;
+  pointer-events:none;
+  animation:
+    aparecer 1s var(--ease) 1.3s backwards,
+    pulso 2.4s ease-in-out 2.3s infinite;
 }
-@keyframes pulse{ 0%,100%{ opacity:.35; } 50%{ opacity:.85; } }
+.tap-hint::before,
+.tap-hint::after{
+  content:"";
+  width:34px;
+  height:1px;
+  background:linear-gradient(90deg, transparent, rgba(230,200,96,.8));
+}
+.tap-hint::after{ transform:scaleX(-1); }
+@keyframes pulso{ 0%,100%{ opacity:.45; } 50%{ opacity:1; } }
 
+/* ---------- Botón de música ---------- */
 .musica-btn{
   position:absolute;
-  bottom:5%;
-  left:6%;
+  top:max(20px, 3.5vh);
+  right:max(20px, 5vw);
+  z-index:10;
   width:42px;
   height:42px;
   border-radius:50%;
-  border:1px solid rgba(92,68,37,.4);
-  background:rgba(255,255,255,.25);
-  color:#5c4425;
+  border:1px solid rgba(230,200,96,.5);
+  background:rgba(255,255,255,.07);
+  color:#e8cd8e;
   font-size:18px;
   display:flex;
   align-items:center;
   justify-content:center;
   cursor:pointer;
-  z-index:6;
+  -webkit-backdrop-filter:blur(4px);
+  backdrop-filter:blur(4px);
+  transition:background .2s ease, transform .2s ease;
+}
+.musica-btn:hover{ background:rgba(255,255,255,.16); transform:scale(1.06); }
+
+/* ==========================================================
+   APERTURA  (se activa con la clase .abriendo del JS)
+   0.0s  el sello se rompe
+   0.2s  la solapa se abre
+   0.75s la carta sube
+   1.5s  la cámara se acerca y aparece la invitación
+   ========================================================== */
+.sobre.abriendo .sello{ animation:romper .5s cubic-bezier(.5,0,.75,0) forwards; }
+.sobre.abriendo .sello::before{ animation:none; opacity:0; }
+.sobre.abriendo .sello::after{ animation:onda .7s ease-out; }
+
+.sobre.abriendo .solapa{ animation:abrirSolapa .8s cubic-bezier(.5,0,.2,1) .2s forwards; }
+@keyframes abrirSolapa{
+  0%{   transform:rotateX(0deg);   z-index:6; }
+  45%{  z-index:6; }
+  46%{  z-index:2; }
+  100%{ transform:rotateX(180deg); z-index:2; }
+}
+
+.sobre.abriendo .sombra-solapa{ opacity:0; transition:opacity .25s ease .15s; }
+
+.sobre.abriendo .carta{ animation:subirCarta .9s cubic-bezier(.22,.9,.3,1) .75s forwards; }
+@keyframes subirCarta{
+  from{ translate:0 0;    rotate:0deg; }
+  to{   translate:0 -64%; rotate:-1deg; }
+}
+
+.sobre.abriendo .nombres-sobre,
+.sobre.abriendo .texto-invitado{ opacity:0; }
+.sobre.abriendo .tap-hint{ animation:none; opacity:0; }
+
+/* ---------- Menos movimiento ---------- */
+@media (prefers-reduced-motion:reduce){
+  .sobre *,
+  .sobre *::before,
+  .sobre *::after{ animation:none !important; }
+  .sobre.abriendo .sello{ opacity:0; }
 }
 
 #invitacion{
@@ -229,32 +695,25 @@ body.bloqueado{ overflow:hidden; height:100%; }
 }
 
 .nombres-overlap{
-  position:absolute;
-  top:36px;
-  left:0;
-  right:0;
-  z-index:2;
-  margin:0;
-  text-align:center;
-  font-family:'Alex Brush', 'Dancing Script', cursive;
-  font-size:clamp(38px,9vw,58px);
-  color:#fff;
-  line-height:1;
-  padding:0 12px;
-  text-shadow:0 2px 10px rgba(0, 0, 0, 0.616);
+  position:absolute; top:44px; left:0; right:0; z-index:2;
+  margin:0; padding:0 12px;
+  display:flex; flex-direction:column; align-items:center; gap:4px;
+  text-align:center; color:#fff;
+  font-family:'Alex Brush','Dancing Script',cursive;
+  text-shadow:0 2px 14px rgba(0,0,0,.55);
 }
-
-.nombres-overlap .placeholder{
-  font-family:'Cormorant Garamond', serif;
-  font-size:18px;
-  vertical-align:middle;
-  color:#fff;
-  border-color:rgba(255,255,255,.6);
+.nombres-overlap .nombre{ font-size:clamp(46px,8vw,68px); line-height:.95; }
+.nombres-overlap .amp{
+  display:flex; align-items:center; gap:14px;
+  font-family:'Playfair Display',serif; font-style:italic;
+  font-size:22px; color:#e6c860;
 }
+.nombres-overlap .amp i{ width:44px; height:1px; background:linear-gradient(90deg,transparent,#e6c860); }
+.nombres-overlap .amp i:last-child{ transform:scaleX(-1); }
 
 .acompanos-section{
   margin:24px -32px 0;
-  padding:38px 24px;
+  padding:60px 24px;
   text-align:center;
   background:linear-gradient(135deg, #fdfdfd, #f7e5e1);
   color:var(--ink);
@@ -285,7 +744,7 @@ body.bloqueado{ overflow:hidden; height:100%; }
   background:var(--card);
   border:1px solid var(--line);
   border-radius:16px;
-  padding:22px 18px 20px;
+  padding:40px 18px 20px;
   text-align:center;
   box-shadow:0 12px 28px rgba(26,43,60,.18);
 }
@@ -329,54 +788,128 @@ body.bloqueado{ overflow:hidden; height:100%; }
   margin-top:2px;
 }
 
-.fp-row{
+
+/* ==========================================================
+   FOTOS EN ARCO (reemplaza .fp-row, .fp-foto, .fp-frase
+   y el bloque @media (max-width:480px) que los usaba).
+   Pega esto en style.css en lugar de esos estilos.
+   ========================================================== */
+
+.duo-fotos{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:26px;
+  max-width:460px;
+  margin:10px auto 6px;
+  padding:0 10px;
+  text-align:center;
+}
+
+/* la segunda foto baja, así se forma una composición escalonada */
+.duo-item{
+  margin:0;
+}
+.duo-item:nth-child(2){
+  margin-top:56px;
+}
+
+/* --- marco dorado desplazado detrás de cada arco --- */
+.arco-marco{
+  position:relative;
+  aspect-ratio:3 / 4.3;
+}
+.arco-marco::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  border:1px solid var(--oro);
+  border-radius:999px 999px 10px 10px;
+  transform:translate(-10px, 10px);
+  opacity:.75;
+}
+.duo-item:nth-child(2) .arco-marco::before{
+  transform:translate(10px, 10px);
+}
+
+/* --- la foto en forma de arco (ventana de iglesia) --- */
+.arco{
+  position:relative;
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  border-radius:999px 999px 10px 10px;
+  background:var(--bg);
+  box-shadow:0 16px 30px rgba(26,43,60,.22);
+}
+.arco img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+.arco.sin-foto{
   display:flex;
   align-items:center;
-  gap:18px;
-  margin-bottom:26px;
-  text-align:left;
-}
-.fp-row.reverse{
-  flex-direction:row-reverse;
-  text-align:right;
-}
-.fp-foto{
-  flex:0 0 auto;
-  width:190px;
-  height:190px;
-  border-radius:50%;
-  overflow:hidden;
-  border:4px solid var(--card);
-  box-shadow:0 6px 16px rgba(90,67,64,.18);
-  background:var(--bg);
-}
-.fp-foto img{ width:100%; height:100%; object-fit:cover; display:block; }
-.fp-foto.sin-foto{
-  display:flex; align-items:center; justify-content:center;
+  justify-content:center;
   border:1px dashed var(--accent-2);
 }
-.fp-foto.sin-foto::after{
+.arco.sin-foto::after{
   content:"Foto";
-  font-size:12px;
+  font-size:13px;
   color:var(--ink-soft);
 }
-.fp-frase{
-  flex:1;
+
+/* --- frase debajo de cada foto --- */
+.duo-frase{
+  margin:26px auto 0;
+  max-width:180px;
   font-family:'Playfair Display', serif;
   font-style:italic;
-  font-size:17px;
+  font-size:15px;
+  line-height:1.6;
   color:var(--ink-soft);
-  line-height:1.5;
+}
+.duo-frase::before{
+  content:"";
+  display:block;
+  width:26px;
+  height:1px;
+  margin:0 auto 12px;
+  background:var(--oro);
 }
 
-@media (max-width:480px){
-  .fp-row, .fp-row.reverse{
-    flex-direction:column;
-    text-align:center;
+/* --- única animación: los arcos se "abren" al llegar a esta parte --- */
+.duo-fotos.reveal-ready:not(.en-vista) .arco{
+  clip-path:inset(100% 0 0 0);
+}
+.duo-fotos.reveal-ready:not(.en-vista) .arco-marco::before{
+  opacity:0;
+}
+.duo-fotos.reveal-ready .arco{
+  clip-path:inset(0 0 0 0);
+  transition:clip-path 1.4s cubic-bezier(.65,0,.25,1);
+}
+.duo-fotos.reveal-ready .arco-marco::before{
+  transition:opacity 1s ease .9s;
+}
+.duo-fotos.reveal-ready .duo-item:nth-child(2) .arco{
+  transition-delay:.35s;
+}
+
+@media (prefers-reduced-motion:reduce){
+  .duo-fotos.reveal-ready .arco,
+  .duo-fotos.reveal-ready .arco-marco::before{
+    transition:none;
   }
-  .fp-foto{ width:220px; height:220px; }
+  .duo-fotos.reveal-ready:not(.en-vista) .arco{ clip-path:inset(0 0 0 0); }
+  .duo-fotos.reveal-ready:not(.en-vista) .arco-marco::before{ opacity:.75; }
 }
 
+/* celulares muy angostos */
+@media (max-width:360px){
+  .duo-fotos{ gap:20px; padding:0 6px; }
+  .duo-frase{ font-size:14px; }
+}
 .divisor{
   display:flex;
   align-items:center;
@@ -618,14 +1151,16 @@ body.bloqueado{ overflow:hidden; height:100%; }
   color:var(--ink-soft);
 }
 
+.vestimenta-item img { width:90%; height:90%; object-fit:cover; display:block; margin: auto;}
+
 .transicion-clara{
   background:linear-gradient(180deg, var(--card), var(--bg));
   padding:40px 24px;
   text-align:center;
 }
 .foto-cuadrada{
-  width:240px;
-  height:240px;
+  width:340px;
+  height:340px;
   margin:0 auto 18px;
   border-radius:24px;
   overflow:hidden;
@@ -780,7 +1315,7 @@ footer{ margin-top:30px; font-size:14px; color:var(--ink-soft); font-style:itali
 .monograma-circulo{ position:relative; z-index:2; }
 
 .transicion-clara{ position:relative; overflow:visible; }
-.flor6{ top:10px; left:8px; width:100px; transform:rotate(-6deg); }
+.flor6{ top:-100px; left:0px; width:280px; transform:rotate(-6deg); }
 
 .card-rsvp{ position:relative; }
 .flor5{ top:-18px; right:-14px; width:100px; transform:rotate(10deg); }
