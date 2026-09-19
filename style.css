@@ -167,11 +167,11 @@ body.bloqueado{ overflow:hidden; height:100%; }
   position:fixed;
   inset:0;
   z-index:50;
-  transform-origin:50% 40%;
-  transition:transform .75s cubic-bezier(.5,0,.2,1), opacity .6s ease .12s;
+  transform-origin:50% 30%;
+  transition:transform 1s cubic-bezier(.5,0,.2,1), opacity .8s ease .2s;
 }
 /* salida: se acerca la cámara hacia la carta */
-#cover.saliendo{ transform:scale(1.4); opacity:0; pointer-events:none; }
+#cover.saliendo{ transform:scale(2.2); opacity:0; pointer-events:none; }
 #cover.oculto{ display:none; }
 
 /* ---------- Escena / fondo ---------- */
@@ -587,6 +587,7 @@ body.bloqueado{ overflow:hidden; height:100%; }
 .sobre.abriendo .sello::before{ animation:none; opacity:0; }
 .sobre.abriendo .sello::after{ animation:onda .7s ease-out; }
 
+
 .sobre.abriendo .solapa{ animation:abrirSolapa .8s cubic-bezier(.5,0,.2,1) .2s forwards; }
 @keyframes abrirSolapa{
   0%{   transform:rotateX(0deg);   z-index:6; }
@@ -597,7 +598,7 @@ body.bloqueado{ overflow:hidden; height:100%; }
 
 .sobre.abriendo .sombra-solapa{ opacity:0; transition:opacity .25s ease .15s; }
 
-.sobre.abriendo .carta{ animation:subirCarta .9s cubic-bezier(.22,.9,.3,1) .75s forwards; }
+.sobre.abriendo .carta{ animation:subirCarta 1.2s cubic-bezier(.22,.9,.3,1) .75s forwards; }
 @keyframes subirCarta{
   from{ translate:0 0;    rotate:0deg; }
   to{   translate:0 -64%; rotate:-1deg; }
@@ -713,7 +714,7 @@ body.bloqueado{ overflow:hidden; height:100%; }
 
 .acompanos-section{
   margin:24px -32px 0;
-  padding:60px 24px;
+  padding:50px 24px;
   text-align:center;
   background:linear-gradient(135deg, #fdfdfd, #f7e5e1);
   color:var(--ink);
@@ -1300,7 +1301,7 @@ footer{ margin-top:30px; font-size:14px; color:var(--ink-soft); font-style:itali
 
 .acompanos-section{ position:relative; overflow:visible; }
 .flor1{ top:-54px; right:-24px; width:170px; transform:rotate(250deg); }
-.flor4{ top:-50px; left:-30px; width:110px; transform:rotate(-8deg); }
+.flor4{ top:-46px; left:-34px; width:100px; transform:rotate(-8deg); }
 
 .titulo-padrinos{ position:relative; }
 .flor2{ top:-30px; left:-8px; width:90px; transform:rotate(-5deg); }

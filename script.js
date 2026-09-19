@@ -6,24 +6,6 @@ document.addEventListener('DOMContentLoaded', function () {
   const musicaBtn = document.getElementById('musica-btn');
   const musica = document.getElementById('musica-fondo');
 
-  sobre.addEventListener('click', function (e) {
-    if (e.target === musicaBtn) return;
-
-    sobre.classList.add('abriendo');
-    cover.classList.add('abriendo');
-    body.classList.remove('bloqueado');
-    invitacion.classList.add('visible');
-
-    musica.play().catch(function () { });
-
-    setTimeout(function () {
-      cover.classList.add('oculto');
-    }, 900);
-
-    // los efectos de scroll empiezan cuando el sobre ya se está abriendo
-    setTimeout(iniciarEfectos, 350);
-  });
-
   musicaBtn.addEventListener('click', function (e) {
     e.stopPropagation();
     musica.muted = !musica.muted;
@@ -247,33 +229,32 @@ document.addEventListener('DOMContentLoaded', function () {
   sobre.addEventListener('click', function (e) {
     if (e.target === musicaBtn || sobre.classList.contains('abriendo')) return;
 
-    // con "reducir movimiento" todo pasa mucho más rápido
-    const v = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0.25 : 1;
+    const v = reducirMovimiento ? 0.25 : 1;
 
     // 0 s: el sello se rompe, la solapa se abre y la carta sube (todo en el CSS)
     sobre.classList.add('abriendo');
     musica.play().catch(function () { });
 
-    // 1.35 s: se desbloquea la página y la invitación queda lista detrás
+    // 2.5 s: la carta ya subió y se quedó un momento a la vista.
+    // Se desbloquea la página y la invitación queda lista detrás
     setTimeout(function () {
       body.classList.remove('bloqueado');
       invitacion.classList.add('visible');
-    }, 1350 * v);
+    }, 2500 * v);
 
-    // 1.5 s: la cámara se acerca a la carta y la portada se desvanece
+    // 2.7 s: la cámara se acerca a la carta y la portada se desvanece
     setTimeout(function () {
       cover.classList.add('saliendo');
-    }, 1500 * v);
+    }, 2700 * v);
 
-    // 1.6 s: arrancan los efectos de scroll de la invitación
-    setTimeout(iniciarEfectos, 1600 * v);
+    // 2.9 s: arrancan los efectos de scroll
+    setTimeout(iniciarEfectos, 2900 * v);
 
-    // 2.35 s: se quita la portada
+    // 3.7 s: se quita la portada
     setTimeout(function () {
       cover.classList.add('oculto');
-    }, 2350 * v);
+    }, 3700 * v);
   });
-
   function iniciarEfectos() {
     if (efectosIniciados || !elementos.length) return;
     efectosIniciados = true;
@@ -299,7 +280,7 @@ document.addEventListener('DOMContentLoaded', function () {
   function iniciarParalaje() {
     if (!FUERZA_PARALAJE) return;
 
-    const flores = Array.from(document.querySelectorAll('.flor7, .flor10, .flor-decor'));
+    const flores = Array.from(document.querySelectorAll('.flor7, .flor10'));
     if (!flores.length) return;
 
     const desplazamiento = new Map();
