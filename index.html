@@ -4,129 +4,181 @@
 <head>
   <meta charset="UTF-8">
   <title>Invitación de Boda</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#8a9679">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Cormorant+Garamond:wght@400;500;600&family=Alex+Brush&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,600&family=Alex+Brush&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body class="bloqueado">
 
-  <!--
-  REEMPLAZA en tu index.html todo el bloque <div id="cover"> ... </div>
-  por este. El <audio id="musica-fondo"> que va justo después NO se toca.
-  Se mantienen los mismos ids: cover, sobre, musica-btn.
--->
+  <!-- Dibujo del sello de cera metálica (se define una vez y se usa en las dos mitades) -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <defs>
+      <!-- borde irregular de la cera -->
+      <filter id="cera-borde" x="-20%" y="-20%" width="140%" height="140%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.03 0.04" numOctaves="3" seed="11" result="ruido" />
+        <feDisplacementMap in="SourceGraphic" in2="ruido" scale="5" xChannelSelector="R" yChannelSelector="G" />
+      </filter>
+      <filter id="cera-suave" x="-30%" y="-30%" width="160%" height="160%">
+        <feGaussianBlur stdDeviation="2.2" />
+      </filter>
+      <radialGradient id="cera-cuerpo" cx="34%" cy="28%" r="80%">
+        <stop offset="0" stop-color="#ece5ad" />
+        <stop offset=".35" stop-color="#b9ae6b" />
+        <stop offset=".75" stop-color="#857f40" />
+        <stop offset="1" stop-color="#4c4823" />
+      </radialGradient>
+      <radialGradient id="cera-hundido" cx="66%" cy="70%" r="85%">
+        <stop offset="0" stop-color="#c9bf7c" />
+        <stop offset=".6" stop-color="#9c9450" />
+        <stop offset="1" stop-color="#6b6733" />
+      </radialGradient>
+      <linearGradient id="cera-aro" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#fff6c4" stop-opacity=".9" />
+        <stop offset=".5" stop-color="#fff6c4" stop-opacity="0" />
+        <stop offset="1" stop-color="#2c2a10" stop-opacity=".85" />
+      </linearGradient>
+      <g id="cera-rama">
+        <path d="M32 56V20" stroke-width="2.4" stroke-linecap="round" fill="none" />
+        <path d="M32 26c-4-6-12-8-16-6 2 5 8 9 16 9" />
+        <path d="M32 34c4-6 12-8 16-6-2 5-8 9-16 9" />
+        <path d="M32 42c-4-5-10-7-13-5 2 4 7 7 13 7" />
+        <path d="M32 48c4-5 10-7 13-5-2 4-7 7-13 7" />
+      </g>
 
+      <symbol id="sello-arte" viewBox="0 0 140 140">
+        <!-- masa de cera: dos manchas superpuestas para que no sea un círculo perfecto -->
+        <g filter="url(#cera-borde)">
+          <circle cx="70" cy="70" r="52" fill="url(#cera-cuerpo)" />
+          <circle cx="66" cy="75" r="47" fill="url(#cera-cuerpo)" />
+        </g>
+        <!-- disco hundido con aro en relieve -->
+        <circle cx="70" cy="70" r="40" fill="url(#cera-hundido)" />
+        <circle cx="70" cy="70" r="40" fill="none" stroke="url(#cera-aro)" stroke-width="3" />
+        <circle cx="70" cy="70" r="36" fill="none" stroke="#2c2a10" stroke-opacity=".4" stroke-width="1" />
+        <!-- rama en relieve: sombra, luz y color -->
+        <g transform="translate(70 70) scale(1.05) translate(-32 -38)">
+          <use href="#cera-rama" fill="#2c2a10" stroke="#2c2a10" opacity=".65" transform="translate(1.2 1.6)" />
+          <use href="#cera-rama" fill="#fff6c4" stroke="#fff6c4" opacity=".6" transform="translate(-1 -1.2)" />
+          <use href="#cera-rama" fill="#a59b57" stroke="#a59b57" />
+        </g>
+        <!-- brillos de la cera -->
+        <ellipse cx="48" cy="42" rx="19" ry="8" fill="#fff" opacity=".3" filter="url(#cera-suave)"
+          transform="rotate(-35 48 42)" />
+        <circle cx="44" cy="46" r="2.6" fill="#fff" opacity=".45" filter="url(#cera-suave)" />
+      </symbol>
+    </defs>
+  </svg>
+
+  <!-- Botón de música: queda visible sobre el sobre y sobre la invitación -->
+  <button class="musica-btn silenciado" id="musica-btn" type="button" aria-label="Activar o silenciar la música"
+    title="Música">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+      stroke-linejoin="round" aria-hidden="true">
+      <path d="M9 18V5l11-2v13" />
+      <circle cx="6.5" cy="18" r="2.5" />
+      <circle cx="17.5" cy="16" r="2.5" />
+      <path class="barra" d="M3 3l18 18" />
+    </svg>
+  </button>
+
+  <!-- ==================== PANTALLA 1: SOBRE ==================== -->
   <div id="cover">
-    <div class="sobre" id="sobre">
+    <div class="sobre" id="sobre" role="button" tabindex="0" aria-label="Abrir la invitación">
 
-      <!-- destellos dorados flotando (los crea el JS) -->
-      <div class="brillos" aria-hidden="true"></div>
+      <!-- interior del sobre (forro marfil con rombos dorados) -->
+      <div class="forro"></div>
 
-      <button class="musica-btn" id="musica-btn" title="Música">♪</button>
+      <!-- frente del sobre: 3 piezas de papel -->
+      <div class="pieza pieza-izq">
+        <div class="papel"></div>
+      </div>
+      <div class="pieza pieza-der">
+        <div class="papel"></div>
+      </div>
+      <div class="pieza pieza-inf">
+        <div class="papel"></div>
+      </div>
 
-      <div class="sobre-caja">
-        <div class="sombra-suelo"></div>
-
-        <!-- interior del sobre (azul con puntitos dorados) -->
-        <div class="cuerpo"></div>
-
-        <!-- carta que sale del sobre -->
-        <div class="ventana-carta">
-          <div class="carta">
-            <svg class="carta-rama" viewBox="0 0 64 64" fill="#c9a227" aria-hidden="true">
-              <path d="M32 56V20" stroke="#c9a227" stroke-width="2" stroke-linecap="round" fill="none" />
-              <path d="M32 26c-4-6-12-8-16-6 2 5 8 9 16 9" />
-              <path d="M32 34c4-6 12-8 16-6-2 5-8 9-16 9" />
-              <path d="M32 42c-4-5-10-7-13-5 2 4 7 7 13 7" />
-              <path d="M32 48c4-5 10-7 13-5-2 4-7 7-13 7" />
-            </svg>
-            <div class="carta-titulo">Nos casamos</div>
-            <div class="carta-orn"><span>❀</span></div>
-          </div>
-        </div>
-
-        <!-- frente del sobre: 3 triángulos de papel -->
-        <div class="bolsillo">
-          <div class="p p-izq"></div>
-          <div class="p p-der"></div>
-          <div class="p p-inf"></div>
-        </div>
-        <svg class="pliegues" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-          <path d="M0 0 L50 56 L100 0 M0 100 L50 56 L100 100" fill="none" stroke="rgba(92,68,37,.38)" stroke-width="1"
+      <!-- filos y pliegues (los números deben coincidir con --punta, --inf-borde y --inf-centro del CSS) -->
+      <svg class="pliegues" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+        <g fill="none">
+          <!-- solapas laterales -->
+          <path d="M0 0 L50 50 L100 0" stroke="rgba(20,28,10,.5)" stroke-width="1" vector-effect="non-scaling-stroke" />
+          <path d="M0 0 L50 50 L100 0" stroke="rgba(255,255,235,.4)" stroke-width="1" vector-effect="non-scaling-stroke"
+            transform="translate(0 .35)" />
+          <!-- doblez de abajo -->
+          <path d="M0 72 L50 50 L100 72" stroke="rgba(20,28,10,.5)" stroke-width="1"
             vector-effect="non-scaling-stroke" />
-          <path d="M0 0 L50 56 L100 0 M0 100 L50 56 L100 100" fill="none" stroke="rgba(255,255,255,.65)"
-            stroke-width="1" vector-effect="non-scaling-stroke" transform="translate(0 .5)" />
-        </svg>
+          <path d="M0 72 L50 50 L100 72" stroke="rgba(255,255,235,.5)" stroke-width="1"
+            vector-effect="non-scaling-stroke" transform="translate(0 .35)" />
+        </g>
+      </svg>
 
-        <!-- sombra que la solapa proyecta sobre el sobre -->
-        <div class="sombra-solapa">
-          <div></div>
-        </div>
+      <!-- nombre del invitado impreso en el sobre -->
+      <div class="texto-invitado">
+        <div class="para">Con cariño para</div>
+        <div class="nombre-invitado"><span class="placeholder">Nombre del invitado</span></div>
+        <div class="num-invitados"><span class="placeholder">2 personas</span></div>
+      </div>
 
-        <!-- solapa: por fuera es papel, por dentro es el forro azul -->
-        <div class="solapa">
-          <div class="solapa-cara fuera">
-            <svg class="solapa-filete" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-              <path d="M4 0 L50 92 L96 0" fill="none" stroke="#c9a227" stroke-opacity=".6" stroke-width="1"
-                vector-effect="non-scaling-stroke" />
-            </svg>
-          </div>
-          <div class="solapa-cara dentro"></div>
-        </div>
+      <!-- sombra que la solapa proyecta sobre el sobre -->
+      <div class="sombra-solapa">
+        <div></div>
+      </div>
 
-        <!-- sello de cera roja con relieve -->
-        <div class="sello">
-          <svg viewBox="0 0 120 120" aria-hidden="true">
+      <!-- solapa: por fuera es papel, por dentro es el forro -->
+      <div class="solapa">
+        <div class="solapa-cara fuera">
+          <svg class="solapa-filete" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
             <defs>
-              <filter id="cera" x="-15%" y="-15%" width="130%" height="130%">
-                <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="2" seed="7" result="ruido" />
-                <feDisplacementMap in="SourceGraphic" in2="ruido" scale="10" xChannelSelector="R"
-                  yChannelSelector="G" />
-              </filter>
-              <radialGradient id="cera-g" cx="36%" cy="30%" r="78%">
-                <stop offset="0" stop-color="#e0645d" />
-                <stop offset=".45" stop-color="#a52a2d" />
-                <stop offset="1" stop-color="#5a1214" />
-              </radialGradient>
-              <g id="cera-rama">
-                <path d="M32 56V20" stroke-width="2.4" stroke-linecap="round" fill="none" />
-                <path d="M32 26c-4-6-12-8-16-6 2 5 8 9 16 9" />
-                <path d="M32 34c4-6 12-8 16-6-2 5-8 9-16 9" />
-                <path d="M32 42c-4-5-10-7-13-5 2 4 7 7 13 7" />
-                <path d="M32 48c4-5 10-7 13-5-2 4-7 7-13 7" />
-              </g>
+              <linearGradient id="oro-filete" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="#9a7615" />
+                <stop offset=".5" stop-color="#e6c860" />
+                <stop offset="1" stop-color="#9a7615" />
+              </linearGradient>
             </defs>
-            <circle cx="60" cy="60" r="47" fill="url(#cera-g)" filter="url(#cera)" />
-            <circle cx="60" cy="60" r="36" fill="none" stroke="#4a0d0f" stroke-opacity=".5" stroke-width="2" />
-            <circle cx="60" cy="60" r="37.6" fill="none" stroke="#f0a196" stroke-opacity=".35" stroke-width="1" />
-            <g transform="translate(33 28) scale(.85)">
-              <use href="#cera-rama" fill="#3d0a0c" stroke="#3d0a0c" opacity=".6" transform="translate(1 1.3)" />
-              <use href="#cera-rama" fill="#f2a89e" stroke="#f2a89e" opacity=".55" transform="translate(-.8 -.9)" />
-              <use href="#cera-rama" fill="#b83a3c" stroke="#b83a3c" />
-            </g>
+            <!-- filo claro del borde y filete dorado hacia adentro -->
+            <path d="M0 0 L50 100 L100 0" fill="none" stroke="rgba(255,255,255,.75)" stroke-width="1.2"
+              vector-effect="non-scaling-stroke" />
+            <path d="M5.5 0 L50 89 L94.5 0" fill="none" stroke="url(#oro-filete)" stroke-width="1.4"
+              stroke-opacity=".85" vector-effect="non-scaling-stroke" />
           </svg>
         </div>
+        <div class="solapa-cara dentro"></div>
+      </div>
 
-        <!-- nombre del invitado impreso en el sobre -->
-        <div class="texto-invitado">
-          <div class="nombre-invitado"><span class="placeholder">Nombre del invitado</span></div>
-          <div class="num-invitados"><span class="placeholder">2 personas</span></div>
+      <!-- sello: entero al inicio, se parte en dos al abrir -->
+      <div class="sello">
+        <div class="sello-entero">
+          <img src="fotos/sello.png" alt="">
+        </div>
+        <div class="mitad mitad-izq">
+          <div class="corte"><img src="fotos/sello.png" alt=""></div>
+        </div>
+        <div class="mitad mitad-der">
+          <div class="corte"><img src="fotos/sello.png" alt=""></div>
         </div>
       </div>
+
+      <!-- luz y bordes del papel -->
+      <div class="velo"></div>
 
       <div class="tap-hint">Toca el sello para abrir</div>
     </div>
   </div>
 
   <!-- audio opcional: reemplaza el src por tu archivo de música -->
-  <audio id="musica-fondo" loop>
+  <audio id="musica-fondo" loop preload="auto">
     <source src="musica.mp3" type="audio/mpeg">
   </audio>
 
-  <!-- PANTALLA 2: invitación completa -->
+  <!-- ==================== PANTALLA 2: INVITACIÓN ==================== -->
   <div id="invitacion">
     <div class="invite">
 
@@ -150,7 +202,7 @@
 
       <div class="contenido-inner">
 
-        <div class="eyebrow" style="margin-top:8px; font-size: 24px;">¡ NOS CASAMOS !</div>
+        <div class="eyebrow">¡ NOS CASAMOS !</div>
 
         <div class="acompanos-section">
           <img class="flor-decor flor1" src="flores/flor1.png" alt="">
@@ -224,7 +276,7 @@
                 onerror="this.style.display='none'; this.parentElement.classList.add('sin-foto')">
             </div>
             <div class="collage-foto pequena" id="collage-3">
-              <img src="fotos/IMG_4735.JPG.jpeg" alt="Foto"
+              <img src="fotos/IMG_4670.JPG.jpeg" alt="Foto"
                 onerror="this.style.display='none'; this.parentElement.classList.add('sin-foto')">
             </div>
           </div>
@@ -275,98 +327,100 @@
 
           <div class="divisor" style="margin-top:36px;"><span>❀</span></div>
 
-          <h2>Itinerario</h2>
+          <section class="itinerario-section">
+            <h2>Itinerario</h2>
 
-          <div class="itinerario-timeline">
-            <div class="timeline-item">
-              <div class="timeline-icon">
-                <svg width="26" height="26" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M30 6l2-4 2 4" stroke="var(--accent)" stroke-width="2" stroke-linecap="round"
-                    stroke-linejoin="round" />
-                  <path d="M32 6v8" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" />
-                  <path d="M20 58V32c0-6.6 5.4-12 12-12s12 5.4 12 12v26" stroke="var(--accent)" stroke-width="2.5"
-                    stroke-linejoin="round" />
-                  <path d="M12 58V40l8-6" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round"
-                    stroke-linejoin="round" />
-                  <path d="M52 58V40l-8-6" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round"
-                    stroke-linejoin="round" />
-                  <path d="M8 58h48" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round" />
-                  <rect x="28" y="42" width="8" height="16" rx="1" stroke="var(--accent)" stroke-width="2" />
-                </svg>
+            <div class="itinerario-timeline">
+              <div class="timeline-item">
+                <div class="timeline-icon">
+                  <svg width="26" height="26" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M30 6l2-4 2 4" stroke="var(--accent)" stroke-width="2" stroke-linecap="round"
+                      stroke-linejoin="round" />
+                    <path d="M32 6v8" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" />
+                    <path d="M20 58V32c0-6.6 5.4-12 12-12s12 5.4 12 12v26" stroke="var(--accent)" stroke-width="2.5"
+                      stroke-linejoin="round" />
+                    <path d="M12 58V40l8-6" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round"
+                      stroke-linejoin="round" />
+                    <path d="M52 58V40l-8-6" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round"
+                      stroke-linejoin="round" />
+                    <path d="M8 58h48" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round" />
+                    <rect x="28" y="42" width="8" height="16" rx="1" stroke="var(--accent)" stroke-width="2" />
+                  </svg>
+                </div>
+                <div class="timeline-text right">
+                  <span class="t-hora placeholder">--:--</span>
+                  <span class="t-label">Ceremonia</span>
+                </div>
               </div>
-              <div class="timeline-text right">
-                <span class="t-hora placeholder">--:--</span>
-                <span class="t-label">Ceremonia</span>
-              </div>
-            </div>
 
-            <div class="timeline-item">
-              <div class="timeline-icon">
-                <svg width="26" height="26" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <g stroke="var(--accent)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M14 10h14l-3 22h-8z" transform="rotate(-18 21 21)" />
-                    <line x1="21" y1="32" x2="21" y2="44" transform="rotate(-18 21 21)" />
-                    <line x1="15" y1="44" x2="27" y2="44" transform="rotate(-18 21 21)" />
-                    <path d="M36 10h14l-3 22h-8z" transform="rotate(18 43 21)" />
-                    <line x1="43" y1="32" x2="43" y2="44" transform="rotate(18 43 21)" />
-                    <line x1="37" y1="44" x2="49" y2="44" transform="rotate(18 43 21)" />
-                  </g>
-                </svg>
+              <div class="timeline-item">
+                <div class="timeline-icon">
+                  <svg width="26" height="26" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g stroke="var(--accent)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M14 10h14l-3 22h-8z" transform="rotate(-18 21 21)" />
+                      <line x1="21" y1="32" x2="21" y2="44" transform="rotate(-18 21 21)" />
+                      <line x1="15" y1="44" x2="27" y2="44" transform="rotate(-18 21 21)" />
+                      <path d="M36 10h14l-3 22h-8z" transform="rotate(18 43 21)" />
+                      <line x1="43" y1="32" x2="43" y2="44" transform="rotate(18 43 21)" />
+                      <line x1="37" y1="44" x2="49" y2="44" transform="rotate(18 43 21)" />
+                    </g>
+                  </svg>
+                </div>
+                <div class="timeline-text left">
+                  <span class="t-hora placeholder">--:--</span>
+                  <span class="t-label">Recepción</span>
+                </div>
               </div>
-              <div class="timeline-text left">
-                <span class="t-hora placeholder">--:--</span>
-                <span class="t-label">Recepción</span>
-              </div>
-            </div>
 
-            <div class="timeline-item">
-              <div class="timeline-icon">
-                <svg width="26" height="26" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <g stroke="var(--accent)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="32" cy="34" r="18" />
-                    <circle cx="32" cy="34" r="9" />
-                    <line x1="12" y1="14" x2="12" y2="26" />
-                    <line x1="9" y1="14" x2="9" y2="22" />
-                    <line x1="15" y1="14" x2="15" y2="22" />
-                    <line x1="12" y1="26" x2="12" y2="52" />
-                    <line x1="52" y1="14" x2="52" y2="52" />
-                    <path d="M52 14c3 1 4 4 4 7s-1 6-4 7" />
-                  </g>
-                </svg>
-              </div>
-              <div class="timeline-text right">
-                <span class="t-hora placeholder">--:--</span>
-                <span class="t-label">Cena</span>
-              </div>
-            </div>
-
-            <div class="timeline-item">
-              <div class="timeline-icon">
-                <svg width="26" height="26" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <defs>
-                    <clipPath id="ballclip1">
+              <div class="timeline-item">
+                <div class="timeline-icon">
+                  <svg width="26" height="26" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g stroke="var(--accent)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                       <circle cx="32" cy="34" r="18" />
-                    </clipPath>
-                  </defs>
-                  <line x1="32" y1="6" x2="32" y2="16" stroke="var(--accent)" stroke-width="2.2"
-                    stroke-linecap="round" />
-                  <circle cx="32" cy="34" r="18" stroke="var(--accent)" stroke-width="2.2" />
-                  <g stroke="var(--accent)" stroke-width="1.3" clip-path="url(#ballclip1)">
-                    <line x1="14" y1="24" x2="50" y2="24" />
-                    <line x1="14" y1="34" x2="50" y2="34" />
-                    <line x1="14" y1="44" x2="50" y2="44" />
-                    <line x1="22" y1="16" x2="22" y2="52" />
-                    <line x1="32" y1="16" x2="32" y2="52" />
-                    <line x1="42" y1="16" x2="42" y2="52" />
-                  </g>
-                </svg>
+                      <circle cx="32" cy="34" r="9" />
+                      <line x1="12" y1="14" x2="12" y2="26" />
+                      <line x1="9" y1="14" x2="9" y2="22" />
+                      <line x1="15" y1="14" x2="15" y2="22" />
+                      <line x1="12" y1="26" x2="12" y2="52" />
+                      <line x1="52" y1="14" x2="52" y2="52" />
+                      <path d="M52 14c3 1 4 4 4 7s-1 6-4 7" />
+                    </g>
+                  </svg>
+                </div>
+                <div class="timeline-text right">
+                  <span class="t-hora placeholder">--:--</span>
+                  <span class="t-label">Cena</span>
+                </div>
               </div>
-              <div class="timeline-text left">
-                <span class="t-hora placeholder">--:--</span>
-                <span class="t-label">Fiesta</span>
+
+              <div class="timeline-item">
+                <div class="timeline-icon">
+                  <svg width="26" height="26" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                      <clipPath id="ballclip1">
+                        <circle cx="32" cy="34" r="18" />
+                      </clipPath>
+                    </defs>
+                    <line x1="32" y1="6" x2="32" y2="16" stroke="var(--accent)" stroke-width="2.2"
+                      stroke-linecap="round" />
+                    <circle cx="32" cy="34" r="18" stroke="var(--accent)" stroke-width="2.2" />
+                    <g stroke="var(--accent)" stroke-width="1.3" clip-path="url(#ballclip1)">
+                      <line x1="14" y1="24" x2="50" y2="24" />
+                      <line x1="14" y1="34" x2="50" y2="34" />
+                      <line x1="14" y1="44" x2="50" y2="44" />
+                      <line x1="22" y1="16" x2="22" y2="52" />
+                      <line x1="32" y1="16" x2="32" y2="52" />
+                      <line x1="42" y1="16" x2="42" y2="52" />
+                    </g>
+                  </svg>
+                </div>
+                <div class="timeline-text left">
+                  <span class="t-hora placeholder">--:--</span>
+                  <span class="t-label">Fiesta</span>
+                </div>
               </div>
             </div>
-          </div>
+          </section>
 
         </div>
 
@@ -409,8 +463,7 @@
 
         <div class="divisor"><span>❀</span></div>
 
-        <div class="card-blanca card-rsvp">
-          <!-- <img class="flor-decor flor5" src="flores/flor5.jpg" alt=""> -->
+        <div class="card-blanca">
           <h2>Confirma tu Asistencia</h2>
           <form class="rsvp-form" id="rsvp-form">
             <input type="text" placeholder="Nombres" required>
@@ -424,7 +477,6 @@
         <div class="divisor"><span>❀</span></div>
 
         <div class="monograma">
-          <!-- <img class="flor-decor flor3" src="flores/flor3.jpg" alt=""> -->
           <div class="monograma-circulo">
             <span class="placeholder">N</span><span class="amp">&amp;</span><span class="placeholder">N</span>
           </div>

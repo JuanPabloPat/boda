@@ -6,14 +6,23 @@ document.addEventListener('DOMContentLoaded', function () {
   const musicaBtn = document.getElementById('musica-btn');
   const musica = document.getElementById('musica-fondo');
 
-  musicaBtn.addEventListener('click', function (e) {
-    e.stopPropagation();
-    musica.muted = !musica.muted;
-    musicaBtn.textContent = musica.muted ? '✕' : '♪';
-    if (!musica.muted) {
-      musica.play().catch(function () { });
+  const reducirMovimiento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ============ MÚSICA ============
+  // El botón pausa / reanuda, y su icono siempre refleja el estado real del audio.
+  function reproducir() {
+    musica.play().catch(function () { musicaBtn.classList.add('silenciado'); });
+  }
+
+  musicaBtn.addEventListener('click', function () {
+    if (musica.paused) {
+      reproducir();
+    } else {
+      musica.pause();
     }
   });
+  musica.addEventListener('play', function () { musicaBtn.classList.remove('silenciado'); });
+  musica.addEventListener('pause', function () { musicaBtn.classList.add('silenciado'); });
 
   // ============ CUENTA REGRESIVA ============
   // 👉 Cambia esta fecha por la fecha y hora reales de la boda:
@@ -100,11 +109,44 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
+  // ============ SOBRE: apertura ============
+  function abrirSobre() {
+    if (sobre.classList.contains('abriendo')) return;
+
+    const v = reducirMovimiento ? 0.15 : 1;
+
+    sobre.classList.add('abriendo');
+    sobre.removeAttribute('tabindex');
+    reproducir();
+
+    // 👇 NUEVO: la invitación se muestra detrás desde el inicio
+    invitacion.classList.add('visible');
+
+    setTimeout(function () {
+      body.classList.remove('bloqueado');
+      cover.classList.add('saliendo');   // (quitamos invitacion.classList.add('visible') de aquí)
+    }, 1150 * v);
+
+    // 👇 antes 1400: ahora los textos/fotos aparecen mientras se abre
+    setTimeout(iniciarEfectos, 700 * v);
+
+    setTimeout(function () {
+      cover.classList.add('oculto');
+    }, 2700 * v);
+  }
+
+  sobre.addEventListener('click', abrirSobre);
+  sobre.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      abrirSobre();
+    }
+  });
+
   // ============ EFECTOS AL HACER SCROLL ============
   // Fuerza del movimiento suave de las flores al bajar (0 = desactivado)
   const FUERZA_PARALAJE = 0.09;
 
-  const reducirMovimiento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const elementos = [];
   const acciones = new Map();
   let efectosIniciados = false;
@@ -210,51 +252,6 @@ document.addEventListener('DOMContentLoaded', function () {
     registrar('.flor-decor, .flor7, .flor10', 'flor');
   }
 
-  (function crearBrillos() {
-    const cont = document.querySelector('.brillos');
-    if (!cont || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-    for (let i = 0; i < 18; i++) {
-      const b = document.createElement('i');
-      b.style.setProperty('--x', (Math.random() * 100).toFixed(1) + '%');
-      b.style.setProperty('--s', (2 + Math.random() * 3).toFixed(1) + 'px');
-      b.style.setProperty('--t', (9 + Math.random() * 9).toFixed(1) + 's');
-      b.style.setProperty('--d', '-' + (Math.random() * 14).toFixed(1) + 's');
-      b.style.setProperty('--dx', (Math.random() * 60 - 30).toFixed(0) + 'px');
-      cont.appendChild(b);
-    }
-  })();
-
-  // ============ SOBRE: apertura por etapas ============
-  sobre.addEventListener('click', function (e) {
-    if (e.target === musicaBtn || sobre.classList.contains('abriendo')) return;
-
-    const v = reducirMovimiento ? 0.25 : 1;
-
-    // 0 s: el sello se rompe, la solapa se abre y la carta sube (todo en el CSS)
-    sobre.classList.add('abriendo');
-    musica.play().catch(function () { });
-
-    // 2.5 s: la carta ya subió y se quedó un momento a la vista.
-    // Se desbloquea la página y la invitación queda lista detrás
-    setTimeout(function () {
-      body.classList.remove('bloqueado');
-      invitacion.classList.add('visible');
-    }, 2500 * v);
-
-    // 2.7 s: la cámara se acerca a la carta y la portada se desvanece
-    setTimeout(function () {
-      cover.classList.add('saliendo');
-    }, 2700 * v);
-
-    // 2.9 s: arrancan los efectos de scroll
-    setTimeout(iniciarEfectos, 2900 * v);
-
-    // 3.7 s: se quita la portada
-    setTimeout(function () {
-      cover.classList.add('oculto');
-    }, 3700 * v);
-  });
   function iniciarEfectos() {
     if (efectosIniciados || !elementos.length) return;
     efectosIniciados = true;
