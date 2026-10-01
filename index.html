@@ -16,6 +16,15 @@
 
 <body class="bloqueado">
 
+  <div id="loader" role="status" aria-live="polite" aria-label="Cargando invitación">
+    <div class="loader-contenido">
+      <img class="loader-iniciales" src="fotos/iniciales.png" alt="">
+      <div class="loader-nombres">Andres <span>&amp;</span> Camila</div>
+      <div class="loader-barra"><i id="loader-progreso"></i></div>
+      <div class="loader-texto">Preparando tu invitación...</div>
+    </div>
+  </div>
+
   <!-- Dibujo del sello de cera metálica (se define una vez y se usa en las dos mitades) -->
   <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
     <defs>
@@ -174,7 +183,7 @@
   </div>
 
   <!-- audio opcional: reemplaza el src por tu archivo de música -->
-  <audio id="musica-fondo" loop preload="auto">
+  <audio id="musica-fondo" loop preload="metadata">
     <source src="cancion.mp3" type="audio/mpeg">
   </audio>
 
@@ -191,7 +200,7 @@
       <img class="flor7 flor7-h" src="flores/flor8.png" alt="">
 
       <div class="foto-header" id="foto-header">
-        <img src="fotos/IMG_4666.JPG.jpeg" alt="Foto de los novios"
+        <img src="fotos/IMG_4666.JPG.jpg" alt="Foto de los novios"
           onerror="this.style.display='none'; this.parentElement.classList.add('sin-foto')">
         <div class="nombres-overlap">
           <span class="nombre">Andres</span>
@@ -237,7 +246,7 @@
             <figure class="duo-item">
               <div class="arco-marco">
                 <div class="arco" id="foto-circular-1">
-                  <img src="fotos/IMG_4657.JPG.jpeg" alt="Foto de los novios"
+                  <img src="fotos/IMG_4657.JPG.jpg" alt="Foto de los novios"
                     onerror="this.style.display='none'; this.parentElement.classList.add('sin-foto')">
                 </div>
               </div>
@@ -249,7 +258,7 @@
             <figure class="duo-item">
               <div class="arco-marco">
                 <div class="arco" id="foto-circular-2">
-                  <img src="fotos/IMG_4700.JPG.jpeg" alt="Foto de los novios"
+                  <img src="fotos/IMG_4700.JPG.jpg" alt="Foto de los novios"
                     onerror="this.style.display='none'; this.parentElement.classList.add('sin-foto')">
                 </div>
               </div>
@@ -282,15 +291,15 @@
           <div class="collage">
             <img class="flor10" src="flores/flor10.png" alt="">
             <div class="collage-foto grande" id="collage-1">
-              <img src="fotos/IMG_4714.JPG.jpeg" alt="Foto"
+              <img src="fotos/IMG_4714.JPG.jpg" alt="Foto"
                 onerror="this.style.display='none'; this.parentElement.classList.add('sin-foto')">
             </div>
             <div class="collage-foto rectangular" id="collage-2">
-              <img src="fotos/IMG_4472.JPG.jpeg" alt="Foto"
+              <img src="fotos/IMG_4472.JPG.jpg" alt="Foto"
                 onerror="this.style.display='none'; this.parentElement.classList.add('sin-foto')">
             </div>
             <div class="collage-foto pequena" id="collage-3">
-              <img src="fotos/IMG_4670.JPG.jpeg" alt="Foto"
+              <img src="fotos/IMG_4670.JPG.jpg" alt="Foto"
                 onerror="this.style.display='none'; this.parentElement.classList.add('sin-foto')">
             </div>
           </div>
@@ -355,7 +364,7 @@
                 <path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z" />
                 <circle cx="12" cy="9.5" r="2.5" />
               </svg>
-              Ver en el mapa
+              Abrir en el mapa
             </a>
           </div>
           <div class="divisor" style="margin-top:36px;"><span>❀</span></div>
@@ -569,7 +578,7 @@
       <div class="transicion-clara">
         <img class="flor-decor flor6" src="flores/flor1.png" alt="">
         <div class="foto-cuadrada" id="foto-cuadrada">
-          <img src="fotos/IMG_4744.PNG" alt="Foto"
+          <img src="fotos/IMG_4744.jpg" alt="Foto"
             onerror="this.style.display='none'; this.parentElement.classList.add('sin-foto')">
         </div>
         <p class="frase-boda">“Nada nos haría más felices que celebrar este día tan especial rodeados de quienes más
@@ -609,7 +618,7 @@
                 </svg>
               </div>
               <p>Dentro de la hacienda hay un amplio espacio de <strong>estacionamiento</strong> donde puedes dejar tu
-                carro de manera segura.</p>
+                vehículo de manera segura.</p>
             </div>
 
             <div class="recom-item">
@@ -639,6 +648,7 @@
           </svg>
           <h2 class="titulo-script">Confirma tu Asistencia</h2>
           <div class="mini-orn" aria-hidden="true"><i></i><b>❀</b><i></i></div>
+          <p class="rsvp-limite">Antes del <strong>9 de noviembre</strong></p>
           <p class="rsvp-intro">Tu presencia hará este día aún más especial. Cuéntanos si nos acompañarás.</p>
 
           <form class="rsvp-form" id="rsvp-form">

@@ -1,3 +1,67 @@
+// ============ PANTALLA DE CARGA ============
+(function () {
+  const loader = document.getElementById('loader');
+  const barra = document.getElementById('loader-progreso');
+  if (!loader) return;
+
+  // Mientras carga, la página no se puede mover
+  document.documentElement.style.overflow = 'hidden';
+
+  // 👉 Tiempo máximo de espera (ms). Si algo tarda más (por ejemplo una foto rota),
+  //    la pantalla de carga se quita igual para que nadie se quede atascado.
+  const TIEMPO_MAXIMO = 15000;
+
+  const imagenes = Array.from(document.images).filter(function (img) {
+    return img.loading !== 'lazy';          // las "lazy" no se esperan
+  });
+  const total = imagenes.length;
+  let cargadas = 0;
+  let terminado = false;
+
+  function progreso(p) {
+    if (barra) barra.style.width = Math.min(100, Math.round(p)) + '%';
+  }
+
+  function terminar() {
+    if (terminado) return;
+    terminado = true;
+    progreso(100);
+    setTimeout(function () {
+      loader.classList.add('listo');
+      document.documentElement.style.overflow = '';
+      setTimeout(function () { loader.remove(); }, 900);
+    }, 400);
+  }
+
+  function marcar() {
+    cargadas++;
+    progreso((cargadas / Math.max(total, 1)) * 90);   // deja el último 10% para el final
+    if (cargadas >= total) terminar();
+  }
+
+  if (!total) {
+    window.addEventListener('load', terminar);
+  } else {
+    imagenes.forEach(function (img) {
+      if (img.complete) {
+        marcar();
+      } else {
+        img.addEventListener('load', marcar, { once: true });
+        img.addEventListener('error', marcar, { once: true });   // una foto rota no bloquea
+      }
+    });
+  }
+
+  // Seguro: también espera a las fuentes y al evento load de la ventana
+  window.addEventListener('load', function () {
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(function () { if (cargadas >= total) terminar(); });
+    }
+  });
+
+  setTimeout(terminar, TIEMPO_MAXIMO);
+})();
+
 document.addEventListener('DOMContentLoaded', function () {
   const body = document.body;
   const cover = document.getElementById('cover');
@@ -7,6 +71,34 @@ document.addEventListener('DOMContentLoaded', function () {
   const musica = document.getElementById('musica-fondo');
 
   const reducirMovimiento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+
+  // ============ NOMBRE DEL INVITADO (viene del link) ============
+  // Ejemplo: index.html?nombre=Juan%20Perez&personas=2
+  const params = new URLSearchParams(window.location.search);
+  const nombreInvitado = (params.get('nombre') || '').trim().slice(0, 60);
+  const personas = Math.min(parseInt(params.get('personas'), 10) || 0, 20);
+
+  const textoInvitado = document.querySelector('.texto-invitado');
+  if (textoInvitado) {
+    if (nombreInvitado) {
+      textoInvitado.querySelector('.nombre-invitado').textContent = nombreInvitado;
+
+      const num = textoInvitado.querySelector('.num-invitados');
+      if (personas > 0) {
+        num.textContent = personas === 1 ? '1 persona' : personas + ' personas';
+      } else {
+        num.remove();
+      }
+    } else {
+      // Si abren el link sin nombre, se oculta el bloque para que no salga el texto de ejemplo
+      textoInvitado.style.display = 'none';
+    }
+  }
+
+  // También rellena el nombre en el formulario de confirmación
+  const inputNombres = document.querySelector('#rsvp-form input[name="nombres"]');
+  if (inputNombres && nombreInvitado) inputNombres.value = nombreInvitado;
 
   // ============ MÚSICA ============
   // El botón pausa / reanuda, y su icono siempre refleja el estado real del audio.
@@ -95,8 +187,10 @@ document.addEventListener('DOMContentLoaded', function () {
   setInterval(actualizarContador, 1000);
 
   // ============ FORMULARIO RSVP ============
-  // 👉 Pon aquí el WhatsApp de los novios (código de país + número, sin + ni espacios).
-  //    Ejemplo Colombia: '573001234567'. Si lo dejas vacío, solo se muestra el agradecimiento.
+  // 👉 Pega aquí la URL de Google Apps Script (la que termina en /exec)
+  const URL_HOJA = 'https://script.google.com/macros/s/AKfycbx-kvAVwjCv5XtLh9kU8P-j55_4vMLSFcrzxPz7OMvlLTwxQImdFLSTFWcRsXUL_fQ2Eg/exec';
+
+  // (Opcional) WhatsApp de los novios para recibir también el aviso. Déjalo vacío si no lo quieres.
   const WHATSAPP_NOVIOS = '';
 
   const rsvpForm = document.getElementById('rsvp-form');
@@ -106,25 +200,41 @@ document.addEventListener('DOMContentLoaded', function () {
     rsvpForm.addEventListener('submit', function (e) {
       e.preventDefault();
 
+      const boton = rsvpForm.querySelector('button[type="submit"]');
+      const textoOriginal = boton.textContent;
       const datos = new FormData(rsvpForm);
       const asiste = datos.get('asistencia') === 'si';
       const mensaje = (datos.get('mensaje') || '').toString().trim();
 
-      if (WHATSAPP_NOVIOS) {
-        const texto =
-          'Hola! Soy ' + datos.get('nombres') + '. ' +
-          (asiste ? 'Confirmo mi asistencia a la boda 💛' : 'Lamentablemente no podré asistir.') +
-          (mensaje ? '\n\n' + mensaje : '') +
-          '\n\nMi teléfono: ' + datos.get('telefono');
-        window.open('https://wa.me/' + WHATSAPP_NOVIOS + '?text=' + encodeURIComponent(texto), '_blank');
-      }
+      boton.disabled = true;
+      boton.textContent = 'Enviando...';
 
-      rsvpGracias.textContent = asiste
-        ? '¡Gracias por confirmar! Los esperamos con mucho cariño 💛'
-        : 'Gracias por avisarnos, te llevaremos en el corazón 💛';
+      fetch(URL_HOJA, {
+        method: 'POST',
+        mode: 'no-cors',                      // Apps Script no permite leer la respuesta desde otro dominio
+        body: new URLSearchParams(datos)
+      })
+        .then(function () {
+          if (WHATSAPP_NOVIOS) {
+            const texto =
+              'Hola! Soy ' + datos.get('nombres') + '. ' +
+              (asiste ? 'Confirmo mi asistencia a la boda 💛' : 'Lamentablemente no podré asistir.') +
+              (mensaje ? '\n\n' + mensaje : '');
+            window.open('https://wa.me/' + WHATSAPP_NOVIOS + '?text=' + encodeURIComponent(texto), '_blank');
+          }
 
-      rsvpForm.style.display = 'none';
-      rsvpGracias.classList.add('visible');
+          rsvpGracias.textContent = asiste
+            ? '¡Gracias por confirmar! Los esperamos con mucho cariño 💛'
+            : 'Gracias por avisarnos, te llevaremos en el corazón 💛';
+
+          rsvpForm.style.display = 'none';
+          rsvpGracias.classList.add('visible');
+        })
+        .catch(function () {
+          boton.disabled = false;
+          boton.textContent = textoOriginal;
+          alert('No pudimos enviar tu confirmación. Revisa tu conexión e inténtalo de nuevo.');
+        });
     });
   }
   // ============ SOBRE: apertura ============
@@ -135,7 +245,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     sobre.classList.add('abriendo');
     sobre.removeAttribute('tabindex');
-    musica.currentTime = 5; 
+    musica.currentTime = 5;
     reproducir();
 
     // 👇 NUEVO: la invitación se muestra detrás desde el inicio
@@ -252,6 +362,7 @@ document.addEventListener('DOMContentLoaded', function () {
       escalonar: true, paso: 0.12, base: 0.25, grupo: '.vestimenta-iconos'
     });
 
+    registrar('.rsvp-limite', 'up', { base: 0.3 });
     // --- Foto cuadrada final ---
     registrar('.foto-cuadrada', 'foto');
 

@@ -1501,7 +1501,7 @@ footer{
   position:absolute;
   inset:0;
   z-index:-1;
-  background:url("fotos/IMG_4735.JPG.jpeg") center / cover no-repeat;
+  background:url("fotos/IMG_4735.JPG.jpg") center / cover no-repeat;
   filter:grayscale(1);        /* gama de grises */
   opacity:.20;                /* transparencia: sube o baja este valor */
   pointer-events:none;
@@ -1777,4 +1777,95 @@ footer{
   border-radius:999px;
   background:linear-gradient(135deg, var(--accent), #2d5282);
   box-shadow:0 8px 18px rgba(31,58,95,.28);
+}
+
+/* ---------- Pantalla de carga ---------- */
+#loader{
+  position:fixed;
+  inset:0;
+  z-index:9999;                 /* por encima de todo, incluido el botón de música */
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:var(--bg);
+  background:radial-gradient(ellipse at 50% 40%, #f4f8f2 0%, var(--bg) 70%);
+  transition:opacity .8s ease, visibility .8s ease;
+  touch-action:none;            /* bloquea gestos mientras carga */
+}
+#loader.listo{
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+}
+
+.loader-contenido{
+  width:min(280px, 80vw);
+  text-align:center;
+}
+.loader-iniciales{
+  display:block;
+  width:150px;
+  height:auto;
+  margin:0 auto 18px;
+  mix-blend-mode:multiply;
+  animation:loaderLatido 2.4s ease-in-out infinite;
+}
+.loader-nombres{
+  font-family:'Alex Brush','Dancing Script',cursive;
+  font-size:34px;
+  line-height:1.1;
+  color:var(--accent);
+}
+.loader-nombres span{
+  font-family:'Playfair Display', serif;
+  font-style:italic;
+  font-size:20px;
+  color:var(--oro);
+  margin:0 4px;
+}
+
+.loader-barra{
+  height:2px;
+  margin:26px auto 14px;
+  background:var(--line);
+  border-radius:2px;
+  overflow:hidden;
+}
+.loader-barra i{
+  display:block;
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg, var(--oro), var(--oro-claro), var(--oro));
+  transition:width .35s ease;
+}
+.loader-texto{
+  font-style:italic;
+  font-size:15px;
+  letter-spacing:1px;
+  color:var(--ink-soft);
+}
+
+@keyframes loaderLatido{
+  0%,100%{ opacity:.7; scale:.97; }
+  50%{ opacity:1; scale:1; }
+}
+
+@media (prefers-reduced-motion:reduce){
+  .loader-iniciales{ animation:none; }
+}
+/* ---------- Fecha límite de confirmación ---------- */
+.rsvp-limite{
+  display:inline-block;
+  margin:0 auto 14px;
+  padding:7px 20px;
+  font-size:12px;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  color:var(--ink-soft);
+  border-top:1px solid rgba(201,162,39,.5);
+  border-bottom:1px solid rgba(201,162,39,.5);
+}
+.rsvp-limite strong{
+  color:var(--accent);
+  font-weight:600;
 }
