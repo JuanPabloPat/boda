@@ -78,6 +78,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const params = new URLSearchParams(window.location.search);
   const nombreInvitado = (params.get('nombre') || '').trim().slice(0, 60);
   const personas = Math.min(parseInt(params.get('personas'), 10) || 0, 20);
+  const idInvitado = (params.get('id') || '').trim().replace(/[^\w-]/g, '').slice(0, 30);
 
   const textoInvitado = document.querySelector('.texto-invitado');
   if (textoInvitado) {
@@ -188,7 +189,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // ============ FORMULARIO RSVP ============
   // 👉 Pega aquí la URL de Google Apps Script (la que termina en /exec)
-  const URL_HOJA = 'https://script.google.com/macros/s/AKfycbx-kvAVwjCv5XtLh9kU8P-j55_4vMLSFcrzxPz7OMvlLTwxQImdFLSTFWcRsXUL_fQ2Eg/exec';
+  const URL_HOJA = 'https://script.google.com/macros/s/AKfycbwquhOGtjZSmB2Xyx2O6QYUpu4rnjiNVfTxKRb-Kw-eYj-RWY7M1bVdtq2iVhMsrAxOQw/exec';
 
   // (Opcional) WhatsApp de los novios para recibir también el aviso. Déjalo vacío si no lo quieres.
   const WHATSAPP_NOVIOS = '';
@@ -203,6 +204,7 @@ document.addEventListener('DOMContentLoaded', function () {
       const boton = rsvpForm.querySelector('button[type="submit"]');
       const textoOriginal = boton.textContent;
       const datos = new FormData(rsvpForm);
+      datos.append('id', idInvitado);
       const asiste = datos.get('asistencia') === 'si';
       const mensaje = (datos.get('mensaje') || '').toString().trim();
 
