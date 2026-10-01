@@ -596,6 +596,205 @@ h2{
   color:var(--ink-soft);
 }
 
+/* ---------- Frase de inicio ---------- */
+.frase-inicio{
+  max-width:340px;
+  margin:6px auto 4px;
+  padding:0 8px;
+  text-align:center;
+}
+.frase-inicio p{
+  margin:14px 0;
+  font-family:'Playfair Display', serif;
+  font-style:italic;
+  font-size:clamp(18px,4.8vw,22px);
+  line-height:1.65;
+  color:var(--ink-soft);
+}
+.frase-inicio p em{
+  color:var(--accent);
+  font-weight:600;
+}
+.frase-ornamento{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+  color:var(--oro);
+}
+.frase-ornamento b{
+  font-weight:400;
+  font-size:14px;
+  line-height:1;
+}
+.frase-ornamento i{
+  width:46px;
+  height:1px;
+  background:linear-gradient(90deg, transparent, var(--oro));
+}
+.frase-ornamento i:last-child{ transform:scaleX(-1); }
+
+
+/* ---------- Títulos en cursiva y mini ornamento ---------- */
+.titulo-script{
+  font-family:'Alex Brush','Dancing Script',cursive;
+  font-weight:400;
+  font-size:clamp(36px,9vw,46px);
+  letter-spacing:0;
+  line-height:1.1;
+  margin:6px 0 8px;
+  color:var(--accent);
+}
+.mini-orn{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+  color:var(--oro);
+  margin:6px 0 14px;
+}
+.mini-orn b{ font-weight:400; font-size:15px; line-height:1; }
+.mini-orn i{
+  width:48px;
+  height:1px;
+  background:linear-gradient(90deg, transparent, var(--oro));
+}
+.mini-orn i:last-child{ transform:scaleX(-1); }
+
+/* ---------- Lluvia de sobres ---------- */
+.regalo-card,
+.vestimenta-card{
+  background:linear-gradient(135deg, #fdfdfd, #f7e5e1);
+  padding:34px 26px;
+}
+.regalo-icono{
+  width:56px;
+  height:56px;
+  margin-bottom:6px;
+  filter:drop-shadow(0 4px 6px rgba(201,162,39,.25));
+}
+.regalo-texto{
+  font-family:'Playfair Display', serif;
+  font-size:16.5px;
+  line-height:1.8;
+  color:var(--ink-soft);
+  max-width:340px;
+  margin:0 auto;
+}
+
+/* ---------- Código de vestimenta ---------- */
+.vest-estilo{
+  font-family:'Playfair Display', serif;
+  font-style:italic;
+  font-size:20px;
+  letter-spacing:5px;
+  text-transform:uppercase;
+  color:var(--ink-soft);
+  margin-top:2px;
+}
+.vest-cols{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+  position:relative;
+  margin-top:6px;
+}
+/* línea dorada vertical entre las dos columnas */
+.vest-cols::before{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:8%;
+  bottom:8%;
+  width:1px;
+  background:linear-gradient(180deg, transparent, var(--oro), transparent);
+  opacity:.7;
+}
+.vest-col p{
+  margin:6px 0 0;
+  font-size:17px;
+  line-height:1.4;
+  color:var(--ink);
+}
+.vest-icono{
+  width:54px;
+  height:54px;
+  margin:0 auto 6px;
+  display:block;
+}
+.vest-quien{
+  font-family:'Alex Brush','Dancing Script',cursive;
+  font-size:34px;
+  line-height:1;
+  color:var(--accent);
+}
+
+/* colores reservados */
+.vest-reservado{
+  margin-top:26px;
+  padding-top:20px;
+  border-top:1px solid var(--line);
+}
+.vest-reservado-titulo{
+  margin:0 0 14px;
+  font-size:12px;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  color:var(--ink-soft);
+}
+.vest-colores{
+  display:flex;
+  justify-content:center;
+  gap:26px;
+}
+.vest-color{ display:flex; flex-direction:column; align-items:center; gap:8px; }
+.vest-color small{
+  font-size:12px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--ink-soft);
+}
+.dot{
+  position:relative;
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  border:1px solid rgba(26,43,60,.22);
+  box-shadow:0 4px 10px rgba(26,43,60,.15);
+}
+.dot.blanco{ background:#ffffff; }
+.dot.perla{ background:radial-gradient(circle at 30% 30%, #fbf8f1, #e6dfd2); }
+.dot.verde{ background:#3f6b4a; }
+/* raya diagonal = color no permitido */
+.dot::after{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:-4px;
+  width:1.5px;
+  height:calc(100% + 8px);
+  background:var(--rojo);
+  transform:translateX(-50%) rotate(45deg);
+  opacity:.8;
+}
+
+.vest-nota{
+  margin:24px auto 0;
+  max-width:320px;
+  font-family:'Playfair Display', serif;
+  font-style:italic;
+  font-size:15.5px;
+  line-height:1.7;
+  color:var(--ink-soft);
+}
+.vest-nota::before{
+  content:"";
+  display:block;
+  width:30px;
+  height:1px;
+  margin:0 auto 14px;
+  background:var(--oro);
+}
 /* ---------- Acompáñanos ---------- */
 .acompanos-section{
   position:relative;
@@ -1310,4 +1509,272 @@ footer{
   /* difumina arriba y abajo para que no se note el corte */
   -webkit-mask-image:linear-gradient(180deg, transparent 0%, #000 15%, #000 85%, transparent 100%);
           mask-image:linear-gradient(180deg, transparent 0%, #000 15%, #000 85%, transparent 100%);
+}
+
+/* ---------- Itinerario (ajustes) ---------- */
+.itinerario-section .titulo-script{ margin-bottom:0; }
+
+.timeline-item{ min-height:84px; margin-bottom:16px; }
+.timeline-icon{ width:52px; height:52px; }
+.timeline-text{ width:calc(50% - 38px); }
+.timeline-text.right{ left:calc(50% + 38px); }
+.timeline-text.left{ right:calc(50% + 38px); }
+.timeline-text .t-label{ font-size:11px; letter-spacing:1.5px; line-height:1.4; }
+.timeline-text .t-sub{
+  display:block;
+  margin-top:2px;
+  font-family:'Playfair Display', serif;
+  font-style:italic;
+  font-size:13px;
+  color:var(--ink-soft);
+}
+
+/* ---------- Recomendaciones ---------- */
+.recom-card{
+  position:relative;
+  background:linear-gradient(135deg, #fdfdfd, #f7e5e1);
+  padding:38px 28px 22px;
+}
+/* filete dorado fino por dentro de la tarjeta */
+.recom-card::before{
+  content:"";
+  position:absolute;
+  inset:8px;
+  border:1px solid rgba(201,162,39,.4);
+  border-radius:11px;
+  pointer-events:none;
+}
+.recom-lista{ text-align:left; }
+.recom-item{
+  display:flex;
+  align-items:center;
+  gap:16px;
+  padding:18px 0;
+  border-bottom:1px solid var(--line);
+}
+.recom-item:last-child{ border-bottom:none; }
+.recom-icono{
+  flex:0 0 52px;
+  width:52px;
+  height:52px;
+  border-radius:50%;
+  background:var(--card);
+  border:1px solid var(--oro);
+  box-shadow:0 4px 12px rgba(201,162,39,.22);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.recom-icono svg{ width:28px; height:28px; }
+.recom-item p{
+  margin:0;
+  font-size:16.5px;
+  line-height:1.55;
+  color:var(--ink-soft);
+}
+.recom-item p strong{
+  color:var(--accent);
+  font-weight:600;
+}
+
+/* ---------- Divisor con iniciales ---------- */
+.divisor-iniciales{ gap:0; margin:18px 0; }
+.divisor-iniciales span{ display:block; line-height:0; }
+.divisor-iniciales img{
+  display:block;
+  width:clamp(160px,48vw,210px);
+  height:auto;
+  mix-blend-mode:multiply;     /* el blanco de la imagen se funde con el fondo */
+  pointer-events:none;
+  user-select:none;
+}
+.divisor-iniciales::before{ background:linear-gradient(90deg, transparent, var(--oro)); }
+.divisor-iniciales::after{  background:linear-gradient(270deg, transparent, var(--oro)); }
+
+/* ---------- Ceremonia y recepción ---------- */
+.evento-card,
+.rsvp-card{ position:relative; }
+
+/* filete dorado fino por dentro */
+.evento-card::before,
+.rsvp-card::before{
+  content:"";
+  position:absolute;
+  inset:8px;
+  border:1px solid rgba(201,162,39,.4);
+  border-radius:11px;
+  pointer-events:none;
+}
+
+.evento-card{
+  margin:70px 0 0;
+  padding:0 26px 34px;
+  text-align:center;
+  background:linear-gradient(135deg, #fdfdfd, #f7e5e1);
+  border:1px solid var(--line);
+  border-radius:16px;
+  box-shadow:0 12px 28px rgba(26,43,60,.18);
+}
+.evento-medallon{
+  position:relative;
+  z-index:2;
+  width:72px;
+  height:72px;
+  margin:-36px auto 18px;
+  border-radius:50%;
+  background:var(--card);
+  border:1px solid var(--oro);
+  box-shadow:0 0 0 5px var(--card), 0 8px 18px rgba(201,162,39,.3);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.evento-medallon svg{ width:38px; height:38px; }
+
+.evento-label{
+  font-size:12px;
+  letter-spacing:5px;
+  text-transform:uppercase;
+  color:var(--ink-soft);
+}
+.evento-hora{
+  margin-top:6px;
+  font-family:'Playfair Display', serif;
+  font-weight:600;
+  font-size:clamp(40px,11vw,52px);
+  line-height:1.1;
+  color:var(--accent);
+}
+.evento-hora small{
+  margin-left:6px;
+  font-size:.38em;
+  font-weight:400;
+  letter-spacing:3px;
+  color:var(--ink-soft);
+}
+.evento-card .mini-orn{ margin:12px 0 14px; }
+.evento-nombre{
+  font-family:'Alex Brush','Dancing Script',cursive;
+  font-size:clamp(32px,8.5vw,40px);
+  line-height:1.1;
+  color:var(--accent);
+}
+.evento-direccion{
+  max-width:280px;
+  margin:10px auto 0;
+  font-size:16px;
+  line-height:1.5;
+  color:var(--ink-soft);
+}
+.evento-card .btn-mapa{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  margin-top:22px;
+  border:1px solid var(--oro);
+}
+.evento-card .btn-mapa svg{ width:16px; height:16px; }
+
+/* ---------- Confirma tu asistencia ---------- */
+.rsvp-card{
+  position:relative;
+  background:var(--card);                     /* blanco, sin degradado rosado */
+  border:1px solid var(--line);
+  border-radius:16px;
+  box-shadow:0 12px 28px rgba(26,43,60,.18);  /* misma sombra que las otras tarjetas */
+  padding:38px 26px 30px;
+}
+
+/* filete dorado fino por dentro */
+.rsvp-card::before{
+  content:"";
+  position:absolute;
+  inset:8px;
+  border:1px solid rgba(201,162,39,.4);
+  border-radius:11px;
+  pointer-events:none;
+}
+
+.rsvp-intro{
+  max-width:300px;
+  margin:0 auto;
+  font-family:'Playfair Display', serif;
+  font-style:italic;
+  font-size:16px;
+  line-height:1.7;
+  color:var(--ink-soft);
+}
+.rsvp-form{ gap:16px; margin-top:26px; }
+
+/* botones "sí / no" */
+.rsvp-opciones{ display:flex; gap:10px; }
+.opcion{ position:relative; flex:1; cursor:pointer; }
+.rsvp-form .opcion input{
+  position:absolute;
+  opacity:0;
+  width:1px;
+  height:1px;
+  padding:0;
+  border:0;
+  pointer-events:none;
+}
+.opcion span{
+  display:block;
+  padding:13px 8px;
+  text-align:center;
+  font-size:16px;
+  color:var(--ink-soft);
+  background:var(--bg);
+  border:1px solid var(--line);
+  border-radius:12px;
+  transition:background .25s ease, color .25s ease, border-color .25s ease, box-shadow .25s ease;
+}
+.opcion:hover span{ border-color:var(--oro); }
+.opcion input:checked + span{
+  background:var(--accent);
+  border-color:var(--oro);
+  color:#fff;
+  box-shadow:0 6px 14px rgba(31,58,95,.28);
+}
+.opcion input:focus-visible + span{ outline:2px solid var(--oro); outline-offset:2px; }
+
+/* campos */
+.campo{ display:flex; flex-direction:column; gap:6px; }
+.campo > span{
+  font-size:12px;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  color:var(--ink-soft);
+}
+.rsvp-form .campo input,
+.rsvp-form .campo textarea{
+  background:var(--bg);                       /* tono suave sobre la tarjeta blanca */
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:14px 16px;
+  font-size:17px;
+  box-shadow:none;
+  transition:background .25s ease, border-color .25s ease, box-shadow .25s ease;
+}
+.rsvp-form .campo input::placeholder,
+.rsvp-form .campo textarea::placeholder{ color:#9aa9a0; font-style:italic; }
+.rsvp-form .campo input:focus,
+.rsvp-form .campo textarea:focus{
+  outline:none;
+  background:#fff;
+  border-color:var(--oro);
+  box-shadow:0 0 0 4px rgba(201,162,39,.16);
+}
+
+/* botón confirmar */
+.rsvp-form .btn-enviar{
+  align-self:stretch;
+  margin-top:8px;
+  padding:15px 26px;
+  font-size:15px;
+  letter-spacing:3px;
+  border:1px solid var(--oro);
+  border-radius:999px;
+  background:linear-gradient(135deg, var(--accent), #2d5282);
+  box-shadow:0 8px 18px rgba(31,58,95,.28);
 }

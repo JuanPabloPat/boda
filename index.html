@@ -175,7 +175,7 @@
 
   <!-- audio opcional: reemplaza el src por tu archivo de música -->
   <audio id="musica-fondo" loop preload="auto">
-    <source src="musica.mp3" type="audio/mpeg">
+    <source src="cancion.mp3" type="audio/mpeg">
   </audio>
 
   <!-- ==================== PANTALLA 2: INVITACIÓN ==================== -->
@@ -194,15 +194,22 @@
         <img src="fotos/IMG_4666.JPG.jpeg" alt="Foto de los novios"
           onerror="this.style.display='none'; this.parentElement.classList.add('sin-foto')">
         <div class="nombres-overlap">
-          <span class="nombre">Novia</span>
+          <span class="nombre">Andres</span>
           <span class="amp"><i></i>&amp;<i></i></span>
-          <span class="nombre">Novio</span>
+          <span class="nombre">Camila</span>
         </div>
       </div>
 
       <div class="contenido-inner">
 
         <div class="eyebrow">¡ NOS CASAMOS !</div>
+
+        <div class="frase-inicio">
+          <span class="frase-ornamento" aria-hidden="true"><i></i><b>♥</b><i></i></span>
+          <p>Dios, dos corazones, <em>una promesa</em><br>y toda una vida por delante</p>
+          <span class="frase-ornamento" aria-hidden="true"><i></i><b>❀</b><i></i></span>
+        </div>
+
 
         <div class="acompanos-section">
           <img class="flor-decor flor1" src="flores/flor1.png" alt="">
@@ -234,7 +241,9 @@
                     onerror="this.style.display='none'; this.parentElement.classList.add('sin-foto')">
                 </div>
               </div>
-              <figcaption class="duo-frase"><span class="placeholder">FRASE</span></figcaption>
+              <figcaption class="duo-frase">El amor nunca se da por vencido, jamás pierde la fe, siempre tiene
+                esperanzas y se mantiene firme en toda circunstancia.</figcaption>
+              <figcaption class="duo-frase">Corintios 13:7</figcaption>
             </figure>
 
             <figure class="duo-item">
@@ -244,31 +253,36 @@
                     onerror="this.style.display='none'; this.parentElement.classList.add('sin-foto')">
                 </div>
               </div>
-              <figcaption class="duo-frase"><span class="placeholder">FRASE</span></figcaption>
+              <figcaption class="duo-frase">Uno solo puede ser vencido pero dos se defienden mejor. Es que la cuerda de
+                tres hilos no se rompe fácilmente</figcaption>
+              <figcaption class="duo-frase">Eclesiastés 9:12</figcaption>
             </figure>
 
           </div>
 
-          <div class="divisor"><span>❀</span></div>
+          <div class="divisor divisor-iniciales">
+            <span><img src="fotos/iniciales.png" alt="A &amp; C"></span>
+          </div>
 
-          <p class="frase-boda"><span class="placeholder">FRASE</span></p>
+          <p class="frase-boda">Con mucha ilusión queremos vivir este momento rodeados de personas que han formado parte
+            de nuestra historia. Será un honor contar con tu presencia.</p>
 
-          <div class="divisor"><span>❀</span></div>
+          <!-- <div class="divisor"><span>❀</span></div> -->
 
-          <div class="titulo-padrinos">
+          <!-- <div class="titulo-padrinos">
             <h2>Nuestros Padrinos</h2>
           </div>
           <div class="padrinos-lista">
             <p><span class="placeholder">Nombre del padrino</span></p>
             <p><span class="placeholder">Nombre de la madrina</span></p>
-          </div>
+          </div> -->
 
           <div class="divisor"><span>❀</span></div>
 
           <div class="collage">
             <img class="flor10" src="flores/flor10.png" alt="">
             <div class="collage-foto grande" id="collage-1">
-              <img src="fotos/IMG_4693.JPG.jpeg" alt="Foto"
+              <img src="fotos/IMG_4714.JPG.jpeg" alt="Foto"
                 onerror="this.style.display='none'; this.parentElement.classList.add('sin-foto')">
             </div>
             <div class="collage-foto rectangular" id="collage-2">
@@ -281,56 +295,93 @@
             </div>
           </div>
 
-          <div class="ceremonia-section">
-            <svg class="ceremonia-icono" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M30 6l2-4 2 4" stroke="var(--accent)" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round" />
-              <path d="M32 6v8" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" />
-              <path d="M20 58V32c0-6.6 5.4-12 12-12s12 5.4 12 12v26" stroke="var(--accent)" stroke-width="2.5"
-                stroke-linejoin="round" />
-              <path d="M12 58V40l8-6" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round"
-                stroke-linejoin="round" />
-              <path d="M52 58V40l-8-6" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round"
-                stroke-linejoin="round" />
-              <path d="M8 58h48" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round" />
-              <rect x="28" y="42" width="8" height="16" rx="1" stroke="var(--accent)" stroke-width="2" />
-              <path d="M32 44v6M29 47h6" stroke="var(--accent)" stroke-width="1.6" stroke-linecap="round" />
-            </svg>
-
-            <div class="ceremonia-hora">8:00 AM</div>
-            <div class="ceremonia-label">Ceremonia</div>
-            <div class="ceremonia-nombre"><span class="placeholder">Nombre de la Iglesia</span></div>
-            <div class="ceremonia-direccion"><span class="placeholder">Dirección</span></div>
-
-            <a class="btn-mapa" href="#" target="_blank" rel="noopener">Abrir en el mapa</a>
+          <!-- Ceremonia -->
+          <div class="evento-card">
+            <div class="evento-medallon">
+              <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M30 6l2-4 2 4" stroke="var(--accent)" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round" />
+                <path d="M32 6v8" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" />
+                <path d="M20 58V32c0-6.6 5.4-12 12-12s12 5.4 12 12v26" stroke="var(--accent)" stroke-width="2.5"
+                  stroke-linejoin="round" />
+                <path d="M12 58V40l8-6" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round"
+                  stroke-linejoin="round" />
+                <path d="M52 58V40l-8-6" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round"
+                  stroke-linejoin="round" />
+                <path d="M8 58h48" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round" />
+                <rect x="28" y="42" width="8" height="16" rx="1" stroke="var(--accent)" stroke-width="2" />
+                <path d="M32 44v6M29 47h6" stroke="var(--accent)" stroke-width="1.6" stroke-linecap="round" />
+              </svg>
+            </div>
+            <div class="evento-label">Ceremonia</div>
+            <div class="evento-hora">4:00<small>PM</small></div>
+            <div class="mini-orn" aria-hidden="true"><i></i><b>❀</b><i></i></div>
+            <div class="evento-nombre">Hacienda Cuatro Santos</div>
+            <div class="evento-direccion">Km 2, vía Mapachico, Pasto, Nariño, Colombia</div>
+            <a class="btn-mapa" target="_blank" rel="noopener"
+              href="https://www.google.com/maps/search/?api=1&query=Hacienda+Cuatro+Santos+Mapachico+Pasto+Nari%C3%B1o">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" aria-hidden="true">
+                <path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z" />
+                <circle cx="12" cy="9.5" r="2.5" />
+              </svg>
+              Abrir en el mapa
+            </a>
           </div>
 
-          <div class="ceremonia-section">
-            <svg class="ceremonia-icono" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <g stroke="var(--accent)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M14 10h14l-3 22h-8z" transform="rotate(-18 21 21)" />
-                <line x1="21" y1="32" x2="21" y2="44" transform="rotate(-18 21 21)" />
-                <line x1="15" y1="44" x2="27" y2="44" transform="rotate(-18 21 21)" />
-                <path d="M36 10h14l-3 22h-8z" transform="rotate(18 43 21)" />
-                <line x1="43" y1="32" x2="43" y2="44" transform="rotate(18 43 21)" />
-                <line x1="37" y1="44" x2="49" y2="44" transform="rotate(18 43 21)" />
-              </g>
-            </svg>
-
-            <div class="ceremonia-hora">7:00 PM</div>
-            <div class="ceremonia-label">Recepción</div>
-            <div class="ceremonia-nombre"><span class="placeholder">Nombre del Salón</span></div>
-            <div class="ceremonia-direccion"><span class="placeholder">Dirección de la recepción</span></div>
-
-            <a class="btn-mapa" href="#" target="_blank" rel="noopener">Ver en el mapa</a>
+          <!-- Recepción -->
+          <div class="evento-card">
+            <div class="evento-medallon">
+              <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g stroke="var(--accent)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M14 10h14l-3 22h-8z" transform="rotate(-18 21 21)" />
+                  <line x1="21" y1="32" x2="21" y2="44" transform="rotate(-18 21 21)" />
+                  <line x1="15" y1="44" x2="27" y2="44" transform="rotate(-18 21 21)" />
+                  <path d="M36 10h14l-3 22h-8z" transform="rotate(18 43 21)" />
+                  <line x1="43" y1="32" x2="43" y2="44" transform="rotate(18 43 21)" />
+                  <line x1="37" y1="44" x2="49" y2="44" transform="rotate(18 43 21)" />
+                </g>
+              </svg>
+            </div>
+            <div class="evento-label">Recepción</div>
+            <div class="evento-hora">7:00<small>PM</small></div>
+            <div class="mini-orn" aria-hidden="true"><i></i><b>❀</b><i></i></div>
+            <div class="evento-nombre">Hacienda Cuatro Santos</div>
+            <div class="evento-direccion">Km 2, vía Mapachico, Pasto, Nariño, Colombia</div>
+            <a class="btn-mapa" target="_blank" rel="noopener"
+              href="https://www.google.com/maps/search/?api=1&query=Hacienda+Cuatro+Santos+Mapachico+Pasto+Nari%C3%B1o">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" aria-hidden="true">
+                <path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z" />
+                <circle cx="12" cy="9.5" r="2.5" />
+              </svg>
+              Ver en el mapa
+            </a>
           </div>
-
           <div class="divisor" style="margin-top:36px;"><span>❀</span></div>
 
           <section class="itinerario-section">
-            <h2>Itinerario</h2>
+            <h2 class="titulo-script">Itinerario</h2>
 
             <div class="itinerario-timeline">
+
+              <!-- Protocolo -->
+              <div class="timeline-item">
+                <div class="timeline-icon">
+                  <svg width="26" height="26" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g stroke="var(--accent)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="32" cy="32" r="22" />
+                      <path d="M32 18v15l9 6" />
+                    </g>
+                  </svg>
+                </div>
+                <div class="timeline-text right">
+                  <span class="t-hora">3:00 PM</span>
+                  <span class="t-label">Inicio de protocolo</span>
+                </div>
+              </div>
+
+              <!-- Ceremonia -->
               <div class="timeline-item">
                 <div class="timeline-icon">
                   <svg width="26" height="26" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -347,12 +398,32 @@
                     <rect x="28" y="42" width="8" height="16" rx="1" stroke="var(--accent)" stroke-width="2" />
                   </svg>
                 </div>
-                <div class="timeline-text right">
-                  <span class="t-hora placeholder">--:--</span>
+                <div class="timeline-text left">
+                  <span class="t-hora">4:00 PM</span>
                   <span class="t-label">Ceremonia</span>
                 </div>
               </div>
 
+              <!-- Break coffee y fotos -->
+              <div class="timeline-item">
+                <div class="timeline-icon">
+                  <svg width="26" height="26" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g stroke="var(--accent)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M14 26h28v14a12 12 0 0 1-12 12h-4a12 12 0 0 1-12-12z" />
+                      <path d="M42 30h4a6 6 0 0 1 0 12h-4" />
+                      <path d="M10 57h36" />
+                      <path d="M22 8c-2 3 2 5 0 9M30 8c-2 3 2 5 0 9M38 8c-2 3 2 5 0 9" stroke-width="2" />
+                    </g>
+                  </svg>
+                </div>
+                <div class="timeline-text right">
+                  <span class="t-hora">5:30 PM</span>
+                  <span class="t-label">Break coffee</span>
+                  <span class="t-sub">y sesión de fotos</span>
+                </div>
+              </div>
+
+              <!-- Recepción y brindis -->
               <div class="timeline-item">
                 <div class="timeline-icon">
                   <svg width="26" height="26" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -367,11 +438,13 @@
                   </svg>
                 </div>
                 <div class="timeline-text left">
-                  <span class="t-hora placeholder">--:--</span>
+                  <span class="t-hora">7:00 PM</span>
                   <span class="t-label">Recepción</span>
+                  <span class="t-sub">y brindis</span>
                 </div>
               </div>
 
+              <!-- Cena -->
               <div class="timeline-item">
                 <div class="timeline-icon">
                   <svg width="26" height="26" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -388,11 +461,12 @@
                   </svg>
                 </div>
                 <div class="timeline-text right">
-                  <span class="t-hora placeholder">--:--</span>
+                  <span class="t-hora">8:00 PM</span>
                   <span class="t-label">Cena</span>
                 </div>
               </div>
 
+              <!-- Baile -->
               <div class="timeline-item">
                 <div class="timeline-icon">
                   <svg width="26" height="26" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -415,37 +489,79 @@
                   </svg>
                 </div>
                 <div class="timeline-text left">
-                  <span class="t-hora placeholder">--:--</span>
-                  <span class="t-label">Fiesta</span>
+                  <span class="t-hora">9:00 PM</span>
+                  <span class="t-label">Baile</span>
                 </div>
               </div>
+
             </div>
           </section>
 
         </div>
 
-        <div class="card-blanca">
-          <svg class="card-icono" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="8" y="14" width="48" height="36" rx="4" stroke="var(--accent)" stroke-width="2.2" />
-            <path d="M10 16l22 18 22-18" stroke="var(--accent)" stroke-width="2.2" stroke-linecap="round"
-              stroke-linejoin="round" />
+        <div class="card-blanca regalo-card">
+          <svg class="card-icono regalo-icono" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g stroke="var(--oro)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 27V12a2 2 0 0 1 2-2h26a2 2 0 0 1 2 2v15" />
+              <path d="M32 25c-6-5-7-10-3-11 2-.5 3 1 3 1s1-1.500 3-1c4 1 3 6-3 11z" />
+              <rect x="8" y="26" width="48" height="28" rx="3" />
+              <path d="M8 29l24 16 24-16" />
+            </g>
           </svg>
-          <h2>Sugerencias de Regalo</h2>
-          <p class="card-texto"><span class="placeholder">Escribe aquí tus sugerencias de regalo</span></p>
+          <h2 class="titulo-script">Lluvia de Sobres</h2>
+          <div class="mini-orn" aria-hidden="true"><i></i><b>❀</b><i></i></div>
+          <p class="card-texto regalo-texto">
+            Tu compañía en este día tan especial es el mejor regalo que podríamos recibir.
+            Si aun así deseas hacernos un detalle, lo recibiremos con mucha gratitud y cariño.
+          </p>
         </div>
 
         <div class="divisor"><span>❀</span></div>
 
-        <div class="card-blanca">
-          <h2>Código de Vestimenta</h2>
-          <div class="vestimenta-iconos">
-            <div class="vestimenta-item">
-              <img src="fotos/vestimenta.png" alt="">
-              <div class="vest-label">Mujeres de largo</div>
+        <div class="card-blanca vestimenta-card">
+          <h2 class="titulo-script">Código de Vestimenta</h2>
+          <div class="vest-estilo">Elegante</div>
+          <div class="mini-orn" aria-hidden="true"><i></i><b>❀</b><i></i></div>
+
+          <div class="vest-cols">
+            <div class="vest-col">
+              <svg class="vest-icono" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g stroke="var(--accent)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M24 6l8 8 8-8" />
+                  <path d="M27 14l-2 16-11 28h36L39 30l-2-16" />
+                  <path d="M25 30h14" />
+                </g>
+              </svg>
+              <div class="vest-quien">Ellas</div>
+              <p>Vestido largo o de coctel</p>
+            </div>
+
+            <div class="vest-col">
+              <svg class="vest-icono" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g stroke="var(--accent)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M22 8l10 8 10-8 8 10-4 38H18l-4-38z" />
+                  <path d="M32 16l-3 6 3 18 3-18z" />
+                  <path d="M32 16l-7 14M32 16l7 14" />
+                </g>
+              </svg>
+              <div class="vest-quien">Ellos</div>
+              <p>Traje y corbata</p>
             </div>
           </div>
-        </div>
 
+          <div class="vest-reservado">
+            <p class="vest-reservado-titulo">Nos reservamos estos colores</p>
+            <div class="vest-colores">
+              <div class="vest-color"><span class="dot blanco"></span><small>Blanco</small></div>
+              <div class="vest-color"><span class="dot perla"></span><small>Perla</small></div>
+              <div class="vest-color"><span class="dot verde"></span><small>Verde</small></div>
+            </div>
+          </div>
+
+          <p class="vest-nota">
+            “Nuestra ceremonia será al aire libre, te recomendamos acompañar tu outfit con un abrigo”
+          </p>
+        </div>
         <div class="divisor"><span>❀</span></div>
 
       </div>
@@ -456,30 +572,110 @@
           <img src="fotos/IMG_4744.PNG" alt="Foto"
             onerror="this.style.display='none'; this.parentElement.classList.add('sin-foto')">
         </div>
-        <p class="frase-boda"><span class="placeholder">FRASE</span></p>
+        <p class="frase-boda">“Nada nos haría más felices que celebrar este día tan especial rodeados de quienes más
+          queremos. <br> ¡Los esperamos con mucho cariño!”</p>
       </div>
 
       <div class="contenido-inner">
 
-        <div class="divisor"><span>❀</span></div>
+        <div class="card-blanca recom-card">
+          <h2 class="titulo-script">Recomendaciones</h2>
+          <div class="mini-orn" aria-hidden="true"><i></i><b>❀</b><i></i></div>
 
-        <div class="card-blanca">
-          <h2>Confirma tu Asistencia</h2>
-          <form class="rsvp-form" id="rsvp-form">
-            <input type="text" placeholder="Nombres" required>
-            <input type="tel" placeholder="Teléfono" required>
-            <textarea placeholder="Mensaje para los novios" rows="3"></textarea>
-            <button type="submit" class="btn-mapa">Confirmar</button>
-          </form>
-          <p class="rsvp-gracias" id="rsvp-gracias">¡Gracias por confirmar! Los esperamos con mucho cariño 💛</p>
+          <div class="recom-lista">
+
+            <div class="recom-item">
+              <div class="recom-icono">
+                <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <g stroke="var(--accent)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="32" cy="32" r="24" />
+                    <circle cx="32" cy="23" r="5" />
+                    <path d="M23 43v-5a9 9 0 0 1 18 0v5" />
+                    <path d="M14 14l36 36" stroke="var(--rojo)" />
+                  </g>
+                </svg>
+              </div>
+              <p>Amamos con todo nuestro corazón a los chiquitines de la familia y de nuestros amigos, pero hemos
+                reservado este sitio <strong>solo para adultos</strong>, por lo tanto, niños dulces sueños.</p>
+            </div>
+
+            <div class="recom-item">
+              <div class="recom-icono">
+                <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <g stroke="var(--accent)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="10" y="10" width="44" height="44" rx="10" />
+                    <path d="M26 46V18h9a8 8 0 0 1 0 16h-9" />
+                  </g>
+                </svg>
+              </div>
+              <p>Dentro de la hacienda hay un amplio espacio de <strong>estacionamiento</strong> donde puedes dejar tu
+                carro de manera segura.</p>
+            </div>
+
+            <div class="recom-item">
+              <div class="recom-icono">
+                <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <g stroke="var(--accent)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="32" cy="32" r="22" />
+                    <path d="M32 18v15l9 6" />
+                  </g>
+                </svg>
+              </div>
+              <p>Llegar con <strong>anticipación</strong> para tener tiempo de acomodación en orden antes de iniciar la
+                Ceremonia.</p>
+            </div>
+
+          </div>
         </div>
 
         <div class="divisor"><span>❀</span></div>
 
-        <div class="monograma">
-          <div class="monograma-circulo">
-            <span class="placeholder">N</span><span class="amp">&amp;</span><span class="placeholder">N</span>
-          </div>
+        <div class="card-blanca rsvp-card">
+          <svg class="card-icono" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g stroke="var(--oro)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="8" y="14" width="48" height="36" rx="4" />
+              <path d="M10 16l22 18 22-18" />
+            </g>
+          </svg>
+          <h2 class="titulo-script">Confirma tu Asistencia</h2>
+          <div class="mini-orn" aria-hidden="true"><i></i><b>❀</b><i></i></div>
+          <p class="rsvp-intro">Tu presencia hará este día aún más especial. Cuéntanos si nos acompañarás.</p>
+
+          <form class="rsvp-form" id="rsvp-form">
+            <div class="rsvp-opciones">
+              <label class="opcion">
+                <input type="radio" name="asistencia" value="si" required>
+                <span>Sí, ahí estaré</span>
+              </label>
+              <label class="opcion">
+                <input type="radio" name="asistencia" value="no">
+                <span>No podré asistir</span>
+              </label>
+            </div>
+
+            <label class="campo">
+              <span>Nombres</span>
+              <input type="text" name="nombres" placeholder="Nombre y apellido" required>
+            </label>
+
+            <label class="campo">
+              <span>Teléfono</span>
+              <input type="tel" name="telefono" placeholder="Tu número de contacto" required>
+            </label>
+
+            <label class="campo">
+              <span>Mensaje para los novios</span>
+              <textarea name="mensaje" placeholder="Escríbenos unas palabras (opcional)" rows="3"></textarea>
+            </label>
+
+            <button type="submit" class="btn-mapa btn-enviar">Confirmar</button>
+          </form>
+
+          <p class="rsvp-gracias" id="rsvp-gracias">¡Gracias por confirmar! Los esperamos con mucho cariño 💛</p>
+        </div>
+
+        <div class="divisor divisor-iniciales">
+          <span><img src="fotos/iniciales.png" alt="A &amp; C"></span>
         </div>
 
         <footer>Con todo nuestro cariño, los esperamos.</footer>

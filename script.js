@@ -95,20 +95,38 @@ document.addEventListener('DOMContentLoaded', function () {
   setInterval(actualizarContador, 1000);
 
   // ============ FORMULARIO RSVP ============
+  // 👉 Pon aquí el WhatsApp de los novios (código de país + número, sin + ni espacios).
+  //    Ejemplo Colombia: '573001234567'. Si lo dejas vacío, solo se muestra el agradecimiento.
+  const WHATSAPP_NOVIOS = '';
+
   const rsvpForm = document.getElementById('rsvp-form');
   const rsvpGracias = document.getElementById('rsvp-gracias');
 
   if (rsvpForm) {
     rsvpForm.addEventListener('submit', function (e) {
       e.preventDefault();
-      // Aquí solo se muestra un mensaje de agradecimiento.
-      // Para RECIBIR de verdad las confirmaciones (por email o una hoja de cálculo),
-      // conecta este formulario a un servicio como Formspree, Google Forms o similar.
+
+      const datos = new FormData(rsvpForm);
+      const asiste = datos.get('asistencia') === 'si';
+      const mensaje = (datos.get('mensaje') || '').toString().trim();
+
+      if (WHATSAPP_NOVIOS) {
+        const texto =
+          'Hola! Soy ' + datos.get('nombres') + '. ' +
+          (asiste ? 'Confirmo mi asistencia a la boda 💛' : 'Lamentablemente no podré asistir.') +
+          (mensaje ? '\n\n' + mensaje : '') +
+          '\n\nMi teléfono: ' + datos.get('telefono');
+        window.open('https://wa.me/' + WHATSAPP_NOVIOS + '?text=' + encodeURIComponent(texto), '_blank');
+      }
+
+      rsvpGracias.textContent = asiste
+        ? '¡Gracias por confirmar! Los esperamos con mucho cariño 💛'
+        : 'Gracias por avisarnos, te llevaremos en el corazón 💛';
+
       rsvpForm.style.display = 'none';
       rsvpGracias.classList.add('visible');
     });
   }
-
   // ============ SOBRE: apertura ============
   function abrirSobre() {
     if (sobre.classList.contains('abriendo')) return;
@@ -117,6 +135,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     sobre.classList.add('abriendo');
     sobre.removeAttribute('tabindex');
+    musica.currentTime = 5; 
     reproducir();
 
     // 👇 NUEVO: la invitación se muestra detrás desde el inicio
@@ -221,7 +240,6 @@ document.addEventListener('DOMContentLoaded', function () {
     );
 
     // --- Itinerario ---
-    registrar('.foto-frase-section > h2', 'up');
     registrar('.itinerario-timeline', 'linea');
     registrar('.timeline-icon', 'icono');
     registrar('.timeline-text.right', 'der', { base: 0.12 });
@@ -240,6 +258,23 @@ document.addEventListener('DOMContentLoaded', function () {
     // --- Formulario (campo por campo) ---
     registrar('.rsvp-form > *', 'up', {
       escalonar: true, paso: 0.08, base: 0.15, grupo: '.rsvp-form'
+    });
+
+    registrar('.eyebrow', 'up', { base: 0.2 });
+    registrar('.frase-inicio', 'up', { base: 0.4 });   // NUEVO
+    registrar('.card-blanca', 'zoom');
+    registrar('.card-icono', 'pop', { base: 0.2 });
+    registrar('.titulo-script', 'up', { base: 0.15 });
+    registrar('.regalo-texto', 'up', { base: 0.3 });
+    registrar('.vest-col', 'pop', {
+      escalonar: true, paso: 0.15, base: 0.3, grupo: '.vest-cols'
+    });
+    registrar('.vest-color', 'pop', {
+      escalonar: true, paso: 0.1, base: 0.3, grupo: '.vest-colores'
+    });
+    registrar('.vest-nota', 'up', { base: 0.4 });
+    registrar('.recom-item', 'up', {
+      escalonar: true, paso: 0.15, base: 0.3, grupo: '.recom-lista'
     });
 
     // --- Final ---
