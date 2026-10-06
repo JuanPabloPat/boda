@@ -286,7 +286,8 @@ h2{
   z-index:6;
   left:0;
   right:0;
-  bottom:9cqh;
+  bottom:13cqh;
+  padding:0 14cqw;            /* antes 9cqw: más margen lateral para nombres largos */
   text-align:center;
   color:#f1efdc;
   text-shadow:0 1px 0 rgba(255,255,240,.25), 0 -1px 1px rgba(20,28,12,.55), 0 2px 3px rgba(20,28,12,.35);
@@ -294,20 +295,22 @@ h2{
   animation:aparecer 1s var(--ease) 1s backwards;
 }
 .texto-invitado .para{
-  font-size:clamp(13px, 3.6cqw, 16px);
+  font-size:clamp(19px, 5.4cqw, 25px);   /* antes 17–22px */
   font-style:italic;
   color:#dfe3c9;
 }
 .nombre-invitado{
   font-family:'Playfair Display', serif;
-  font-size:clamp(19px, 5.4cqw, 26px);
+  font-size:clamp(30px, 8.4cqw, 42px);   /* antes 26–36px */
   font-style:italic;
-  line-height:1.3;
+  line-height:1.2;
+  text-wrap:balance;
+  overflow-wrap:anywhere;
 }
 .num-invitados{
-  margin-top:2px;
-  font-size:clamp(13px, 3.8cqw, 17px);
-  letter-spacing:1px;
+  margin-top:4px;
+  font-size:clamp(19px, 5.6cqw, 25px);   /* antes 17–22px */
+  letter-spacing:1.5px;
   color:#dfe3c9;
 }
 .texto-invitado .placeholder{
@@ -1869,3 +1872,64 @@ footer{
   color:var(--accent);
   font-weight:600;
 }
+
+/* ---------- Personas + teléfono en una fila ---------- */
+.campo-fila{
+  display:flex;
+  gap:12px;
+  align-items:flex-start;
+}
+
+.rsvp-form .campo select{
+  width:100%;
+  padding:14px 36px 14px 16px;
+  font-family:'Cormorant Garamond', serif;
+  font-size:17px;
+  color:var(--ink);
+  background:var(--bg) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%231f3a5f' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 14px center;
+  border:1px solid var(--line);
+  border-radius:12px;
+  appearance:none;
+  -webkit-appearance:none;
+  cursor:pointer;
+  transition:background-color .25s ease, border-color .25s ease, box-shadow .25s ease;
+}
+.rsvp-form .campo select:focus{
+  outline:none;
+  border-color:var(--oro);
+  box-shadow:0 0 0 4px rgba(201,162,39,.16);
+}
+.campo-personas{ flex:0 0 100px; }
+
+/* ---------- Nota bajo personas ---------- */
+.campo-nota{
+  margin:-4px 0 0;
+  padding:10px 14px;
+  font-family:'Playfair Display', serif;
+  font-style:italic;
+  font-size:14px;
+  line-height:1.6;
+  color:var(--ink-soft);
+  background:rgba(201,162,39,.08);
+  border-left:2px solid var(--oro);
+  border-radius:0 10px 10px 0;
+}
+.campo-nota strong{
+  color:var(--accent);
+  font-weight:600;
+}
+
+.bloque-asistencia{
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+}
+.bloque-asistencia[hidden]{ display:none; }
+
+.campo-telefono{
+  flex:1 1 0;
+  min-width:0;
+}
+.campo-fila .campo{ min-width:0; }
+.campo-fila .campo input,
+.campo-fila .campo select{ min-width:0; }

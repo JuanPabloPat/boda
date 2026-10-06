@@ -668,10 +668,26 @@
               <input type="text" name="nombres" placeholder="Nombre y apellido" required>
             </label>
 
-            <label class="campo">
-              <span>Teléfono</span>
-              <input type="tel" name="telefono" placeholder="Tu número de contacto" required>
-            </label>
+            <div class="bloque-asistencia" id="bloque-asistencia">
+              <div class="campo-fila">
+                <label class="campo campo-personas">
+                  <span>Personas</span>
+                  <select name="personas" id="input-personas" required>
+                    <option value="1">1</option>
+                  </select>
+                </label>
+
+                <label class="campo campo-telefono">
+                  <span>Teléfono</span>
+                  <input type="tel" name="telefono" placeholder="Tu número de contacto" required>
+                </label>
+              </div>
+
+              <p class="campo-nota">
+                Esta tarjeta es para <strong id="nota-personas">1 persona</strong>.
+                Confirma que todos asistirán; si alguno no podrá venir, cambia el número en el desplegable.
+              </p>
+            </div>
 
             <label class="campo">
               <span>Mensaje para los novios</span>
