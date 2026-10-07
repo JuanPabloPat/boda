@@ -69,6 +69,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const invitacion = document.getElementById('invitacion');
   const musicaBtn = document.getElementById('musica-btn');
   const musica = document.getElementById('musica-fondo');
+  musica.volume = 0.1;
 
   const reducirMovimiento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
